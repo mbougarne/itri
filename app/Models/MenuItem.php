@@ -6,23 +6,16 @@ use Illuminate\Database\Eloquent\Model;
 
 class MenuItem extends Model
 {
+    protected $table = 'menu_items';
     protected $guarded = [];
 
-    public function scopeActive($query)
+    public function menu()
     {
-        return $query->where('is_active', 1);
+        return $this->belongsTo(Menu::class);
     }
 
-    public function scopeInactive($query)
+    public function page()
     {
-        return $query->where('is_active', 0);
-    }
-
-    public function getActiveAttribute($attribute)
-    {
-        return [
-            0 => 'Active',
-            1 => 'Inactive'
-        ][$attribute];
+        return $this->belongsTo(Page::class);
     }
 }

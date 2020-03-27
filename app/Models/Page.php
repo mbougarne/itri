@@ -8,21 +8,36 @@ class Page extends Model
 {
     protected $guarded = [];
 
-    public function scopeActive($query)
+    public function scopePublished($query)
     {
-        return $query->where('is_active', 1);
+        return $query->where('is_published', 1);
     }
 
-    public function scopeInactive($query)
+    public function scopeDraft($query)
     {
-        return $query->where('is_active', 0);
+        return $query->where('is_published', 0);
     }
 
-    public function getActiveAttribute($attribute)
+    public function getIsPublishedAttribute($attribute)
     {
         return [
-            0 => 'Active',
-            1 => 'Inactive'
+            0 => 'Published',
+            1 => 'Draft'
         ][$attribute];
+    }
+
+    public function seo()
+    {
+        return $this->belongsTo(SEO::class);
+    }
+
+    public function graphs()
+    {
+        return $this->belongsTo(OpenGraph::class);
+    }
+
+    public function items()
+    {
+        return $this->belongsTo(MenuItem::class);
     }
 }

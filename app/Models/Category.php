@@ -8,21 +8,27 @@ class Category extends Model
 {
     protected $guarded = [];
 
-    public function scopeActive($query)
+    public function scopeChild($query)
     {
-        return $query->where('is_active', 1);
+        return $query->where('is_sub', 1);
     }
 
-    public function scopeInactive($query)
+    public function scopeParent($query)
     {
         return $query->where('is_active', 0);
     }
 
-    public function getActiveAttribute($attribute)
+    public function getIsSubAttribute($attribute)
     {
         return [
-            0 => 'Active',
-            1 => 'Inactive'
+            0 => 'Parent',
+            1 => 'Sub Category'
         ][$attribute];
     }
+
+    public function posts()
+    {
+        return $this->belongsToMany(Post::class, 'category_post', 'post_id', 'category_id');
+    }
+
 }
