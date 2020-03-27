@@ -1,22 +1,12 @@
 <?php
 
-namespace {{ namespace }};
+namespace App\Http\Controllers;
 
-use {{ rootNamespace }}Http\Controllers\Controller;
+use App\Models\Contact;
 use Illuminate\Http\Request;
-use App\Repository\Contracts\CrudRepositoryInterface;
 
-class {{ class }} extends Controller
+class ContactController extends Controller
 {
-    protected $request;
-    protected $repository;
-
-    public function __construct(Request $request, CrudRepositoryInterface $repository)
-    {
-        $this->request = $request;
-        $this->repository = $repository;
-    }
-
     /**
      * Display a listing of the resource.
      *
@@ -51,10 +41,10 @@ class {{ class }} extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param  \App\Models\Contact  $contact
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(Contact $contact)
     {
         //
     }
@@ -62,10 +52,10 @@ class {{ class }} extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
+     * @param  \App\Models\Contact  $contact
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Contact $contact)
     {
         //
     }
@@ -74,10 +64,10 @@ class {{ class }} extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param  \App\Models\Contact  $contact
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, Contact $contact)
     {
         //
     }
@@ -85,18 +75,11 @@ class {{ class }} extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param  \App\Models\Contact  $contact
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Contact $contact)
     {
         //
-    }
-
-    protected function validateRequest()
-    {
-        return $this->request->validate([
-
-        ]);
     }
 }
