@@ -15,6 +15,10 @@ class CreateSEOSTable extends Migration
     {
         Schema::create('seo', function (Blueprint $table) {
             $table->id();
+            $table->string('title', 100);
+            $table->string('description', 200);
+            $table->text('slug');
+            $table->string('focus_keyword');
             $table->timestamps();
         });
     }

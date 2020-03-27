@@ -15,6 +15,12 @@ class CreateSettingsTable extends Migration
     {
         Schema::create('settings', function (Blueprint $table) {
             $table->id();
+            $table->string('title')->nullable();
+            $table->text('description')->nullable();
+            $table->string('favicon')->nullable();
+            $table->string('logo')->nullable();
+            $table->boolean('allow_comments')->default(0);
+            $table->enum('languages', ['En', 'Ar'])->default('En');
             $table->timestamps();
         });
     }

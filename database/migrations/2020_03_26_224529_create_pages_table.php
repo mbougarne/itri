@@ -15,7 +15,18 @@ class CreatePagesTable extends Migration
     {
         Schema::create('pages', function (Blueprint $table) {
             $table->id();
+            $table->unsignedBigInteger('seo_id')->nullable();
+            $table->unsignedBigInteger('open_graph_id')->nullable();
+            $table->string('slug')->nullable();
+            $table->string('title');
+            $table->string('description')->nullable();
+            $table->text('body');
+            $table->string('thumbnail')->nullable();;
+            $table->boolean('is_published')->default(1);
             $table->timestamps();
+
+            $table->foreign('seo_id')->references('id')->on('seo')->onDelete('set null');
+            $table->foreign('open_graph_id')->references('id')->on('open_graphs')->onDelete('set null');
         });
     }
 

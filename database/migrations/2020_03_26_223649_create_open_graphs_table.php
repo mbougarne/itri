@@ -15,6 +15,10 @@ class CreateOpenGraphsTable extends Migration
     {
         Schema::create('open_graphs', function (Blueprint $table) {
             $table->id();
+            $table->string('title');
+            $table->string('type');
+            $table->string('url');
+            $table->text('image');
             $table->timestamps();
         });
     }

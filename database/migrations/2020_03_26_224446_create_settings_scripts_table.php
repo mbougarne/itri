@@ -15,6 +15,9 @@ class CreateSettingsScriptsTable extends Migration
     {
         Schema::create('settings_scripts', function (Blueprint $table) {
             $table->id();
+            $table->text('header_scripts')->nullable();
+            $table->text('footer_scripts')->nullable();
+            $table->text('styles')->nullable();
             $table->timestamps();
         });
     }
