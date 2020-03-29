@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Str;
 
 class Page extends Model
 {
@@ -26,14 +27,9 @@ class Page extends Model
         ][$attribute];
     }
 
-    public function seo()
+    public function setSlug($value)
     {
-        return $this->belongsTo(SEO::class);
-    }
-
-    public function graphs()
-    {
-        return $this->belongsTo(OpenGraph::class);
+        $this->attributes['slug'] = Str::slug($value, '-');
     }
 
     public function items()

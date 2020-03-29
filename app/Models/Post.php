@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Str;
 
 class Post extends Model
 {
@@ -26,6 +27,11 @@ class Post extends Model
         ][$attribute];
     }
 
+    public function setSlugAttribute($value)
+    {
+        $this->attributes['slug'] = Str::slug($value, '-');
+    }
+
     public function categories()
     {
         return $this->belongsToMany(Category::class, 'category_post', 'category_id', 'post_id');
@@ -34,16 +40,6 @@ class Post extends Model
     public function tags()
     {
         return $this->belongsToMany(Tag::class, 'tag_post', 'tag_id', 'post_id');
-    }
-
-    public function seo()
-    {
-        return $this->belongsTo(SEO::class);
-    }
-
-    public function graphs()
-    {
-        return $this->belongsTo(OpenGraph::class);
     }
 
     public function comments()
