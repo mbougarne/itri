@@ -64,4 +64,37 @@ class UserTest extends TestCase
         $update = $this->repository->delete($user);
         $this->assertTrue($update);
     }
+
+    /** @test */
+    public function user_has_create_route()
+    {
+        $response = $this->get('/users/register');
+        $response->assertStatus(200);
+    }
+
+    /** @test */
+    public function can_create_with_post_method()
+    {
+        $response = $this->post('/users/register', [
+            'username' => 'mourad',
+            'email' => 'contact@mbougarne.me',
+            'password' => 'password01',
+            'password_confirmation' => 'password01',
+        ]);
+
+        $response->assertCreated();
+    }
+
+    /** @test */
+    public function can_update_with_post_method()
+    {
+        $user = User::first();
+        $response = $user->update([
+            'username' => 'johnDoe',
+            'email' => 'updated@mbougarne.me'
+        ]);
+
+        $this->assertTrue($response);
+    }
+
 }

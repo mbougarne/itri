@@ -24,22 +24,21 @@ class UserController extends Controller
      */
     public function create()
     {
-        //
+        return response('ok',200);
     }
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store()
     {
         $userCreation = $this->repository->save($this->validateRequest());
 
         if($userCreation)
         {
-            return response()->json([$userCreation], 200);
+            return response()->json(['created' => true], 201);
         }
 
         return response()->json(['message' => "There is an error"], 500);
@@ -48,13 +47,12 @@ class UserController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
      * @param  \App\Models\User  $user
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, User $user)
+    public function update(User $user)
     {
-        //
+        return $this->repository->update($user, $this->validateRequest());
     }
 
     protected function validateRequest()
@@ -62,7 +60,7 @@ class UserController extends Controller
         return $this->request->validate([
             'username' => 'required|unique:users',
             'email' => 'required|email|unique:users',
-            'password' => 'required|min:8|confirmed'
+            'password' => 'sometimes|nullable|between:8,24|confirmed'
         ]);
     }
 }
