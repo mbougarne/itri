@@ -99,6 +99,16 @@ class UserController extends Controller
     }
 
     /**
+     * Log in view
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function getLogin()
+    {
+        return view('templates.default.login');
+    }
+
+    /**
      * Log out
      *
      * @return \Illuminate\Http\Response

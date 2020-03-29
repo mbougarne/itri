@@ -17,5 +17,13 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/users/register', 'UserController@create');
-Route::post('/users/register', 'UserController@store');
+Route::group(['prefix' => 'users'], function () {
+    Route::get('/register', 'UserController@create')->name('user.signup');
+    Route::post('/register', 'UserController@store')->name('user.signup');
+    Route::get('/login', 'UserController@getLogin')->name('user.login');
+    Route::post('/login', 'UserController@store')->name('user.login');
+});
+
+Route::group(['prefix' => 'posts'], function() {
+    Route::post('/create', 'PostController@store')->name('post.create');
+});

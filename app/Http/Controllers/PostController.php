@@ -2,9 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Http\Request;
 use App\Models\Post;
 use App\Repository\Contracts\CrudRepositoryInterface;
-use Illuminate\Http\Request;
+use Illuminate\Support\Str;
 
 class PostController extends Controller
 {
@@ -24,7 +25,7 @@ class PostController extends Controller
      */
     public function index()
     {
-        //
+        return view('templates.default.posts', ['posts' => $this->repository->getAll()]);
     }
 
     /**
@@ -34,7 +35,7 @@ class PostController extends Controller
      */
     public function create()
     {
-        //
+        return view('templates.default.posts.create');
     }
 
     /**
@@ -46,7 +47,23 @@ class PostController extends Controller
     public function store(Request $request)
     {
         $data = $this->validateRequest();
-        if(!$this->request->has('seo')){}
+
+        if(!$this->request->has('slug'))
+        {
+            $data = array_merge($data, ['slug' => $this->request->title]);
+        }
+
+        $createdPost = $this->repository->save($data);
+
+        if($this->request->hasFile('thumbnail'))
+        {
+            $ext = $request->file('thumbnail')->extension();
+            $thumbnail = Str::slug($this->request->file('thumbnail')) . '-' . time() . '.' . $ext;
+            $this->request->file('thumbnail')->storeAs('thumbnails/', $thumbnail, 'uploads');
+        }
+
+        if($createdPost)
+            return response('created post', 201);
     }
 
     /**
@@ -57,7 +74,7 @@ class PostController extends Controller
      */
     public function show(Post $post)
     {
-        //
+        return view('templates.default.posts.single', ['post' => $post]);
     }
 
     /**
@@ -68,19 +85,29 @@ class PostController extends Controller
      */
     public function edit(Post $post)
     {
-        //
+        return view('templates.default.posts.edit', ['post' => $post]);
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
      * @param  \App\Models\Post  $post
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Post $post)
+    public function update(Post $post)
     {
-        //
+        $data = array_merge($this->validateRequest(), ['slug' => $this->request->title]);
+
+        $updatedPost = $this->repository->update($post, $data);
+
+        if($this->request->hasFile('thumbnail'))
+        {
+            $ext = $request->file('thumbnail')->extension();
+            $thumbnail = Str::slug($this->request->file('thumbnail')) . '-' . time() . '.' . $ext;
+            $this->request->file('thumbnail')->storeAs('thumbnails/', $thumbnail, 'uploads');
+        }
+
+        return response('created post', 201);
     }
 
     /**
@@ -91,7 +118,11 @@ class PostController extends Controller
      */
     public function destroy(Post $post)
     {
-        //
+        $deleted = $this->repository->delete($post);
+
+        if($deleted) {
+            return response('post deleted', 200);
+        }
     }
 
     protected function validateRequest()
@@ -101,7 +132,8 @@ class PostController extends Controller
             'body' => 'required',
             'slug' => 'sometimes|nullable|unique:posts',
             'description' => 'sometimes|nullable|max:160',
-            'thumbnail' => 'sometimes|nullable|file|image|max:5000'
+            'thumbnail' => 'sometimes|nullable|file|image|max:5000',
+            'is_published' => 'sometimes|boolean',
         ]);
     }
 }

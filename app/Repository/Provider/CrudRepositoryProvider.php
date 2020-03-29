@@ -12,5 +12,10 @@ class CrudRepositoryProvider extends ServiceProvider
             ->when('App\Http\Controllers\UserController')
             ->needs('App\Repository\Contracts\CrudRepositoryInterface')
             ->give('App\Repository\UserRepository');
+
+            $this->app
+            ->when('App\Http\Controllers\PostController')
+            ->needs('App\Repository\Contracts\CrudRepositoryInterface')
+            ->give('App\Repository\PostRepository');
     }
 }
