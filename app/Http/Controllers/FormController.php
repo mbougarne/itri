@@ -39,17 +39,6 @@ class FormController extends Controller
     }
 
     /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\Form  $form
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Form $form)
-    {
-        //
-    }
-
-    /**
      * Show the form for editing the specified resource.
      *
      * @param  \App\Models\Form  $form
