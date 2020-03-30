@@ -29,12 +29,36 @@ class PostRepository implements CrudRepositoryInterface
 
     public function save(array $data)
     {
-        return Post::create($data);
+        $post = Post::create($data);
+
+        if(in_array('categories', $data))
+        {
+            $post->categories->sync($data['categories']);
+        }
+
+        if(in_array('tags', $data))
+        {
+            $post->tags->sync($data['tags']);
+        }
+
+        return $post;
     }
 
     public function update($post, array $data)
     {
-        return $post->update($data);
+        $updatedPost = $post->update($data);
+
+        if(in_array('categories', $data))
+        {
+            $post->categories->sync($data['categories']);
+        }
+
+        if(in_array('tags', $data))
+        {
+            $post->tags->sync($data['tags']);
+        }
+
+        return $updatedPost;
     }
 
     public function delete($post)

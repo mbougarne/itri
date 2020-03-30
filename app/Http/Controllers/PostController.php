@@ -3,9 +3,9 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\Post;
-use App\Repository\Contracts\CrudRepositoryInterface;
 use Illuminate\Support\Str;
+use App\Repository\Contracts\CrudRepositoryInterface;
+use App\Models\Post;
 
 class PostController extends Controller
 {
@@ -44,7 +44,7 @@ class PostController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store()
     {
         $data = $this->validateRequest();
 
@@ -57,7 +57,7 @@ class PostController extends Controller
 
         if($this->request->hasFile('thumbnail'))
         {
-            $ext = $request->file('thumbnail')->extension();
+            $ext = $this->request->file('thumbnail')->extension();
             $thumbnail = Str::slug($this->request->file('thumbnail')) . '-' . time() . '.' . $ext;
             $this->request->file('thumbnail')->storeAs('thumbnails/', $thumbnail, 'uploads');
         }
@@ -102,7 +102,7 @@ class PostController extends Controller
 
         if($this->request->hasFile('thumbnail'))
         {
-            $ext = $request->file('thumbnail')->extension();
+            $ext = $this->request->file('thumbnail')->extension();
             $thumbnail = Str::slug($this->request->file('thumbnail')) . '-' . time() . '.' . $ext;
             $this->request->file('thumbnail')->storeAs('thumbnails/', $thumbnail, 'uploads');
         }
@@ -134,6 +134,8 @@ class PostController extends Controller
             'description' => 'sometimes|nullable|max:160',
             'thumbnail' => 'sometimes|nullable|file|image|max:5000',
             'is_published' => 'sometimes|boolean',
+            'categories' => 'sometimes|exists:categories,id',
+            'tags' => 'sometimes|exists:categories,id'
         ]);
     }
 }
