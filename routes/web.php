@@ -91,6 +91,16 @@ Route::group(['prefix' => 'contacts'], function() {
     Route::post('/delete/{contact}', 'ContactController@destroy')->name('contact.delete');
 });
 
+# Forms
+Route::group(['prefix' => 'forms'], function() {
+    Route::get('/', 'FormController@index')->name('forms');
+    Route::get('/create', 'FormController@create')->name('form.create');
+    Route::post('/create', 'FormController@store')->name('form.create');
+    Route::get('/update/{form}', 'FormController@edit')->name('form.update');
+    Route::post('/update/{form}', 'FormController@update')->name('form.update');
+    Route::post('/delete/{form}', 'FormController@destroy')->name('form.delete');
+});
+
 # Menus
 Route::group(['prefix' => 'menus'], function() {
     Route::get('/', 'MenuController@index')->name('menus');
