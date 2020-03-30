@@ -25,5 +25,8 @@ Route::group(['prefix' => 'users'], function () {
 });
 
 Route::group(['prefix' => 'posts'], function() {
+    Route::get('/create', 'PostController@create')->name('post.create');
     Route::post('/create', 'PostController@store')->name('post.create');
+    Route::get('/edit/{post.slug}', 'PostController@show')->name('post.edit');
+    Route::post('/edit/{post.slug}', 'PostController@update')->name('post.edit');
 });
