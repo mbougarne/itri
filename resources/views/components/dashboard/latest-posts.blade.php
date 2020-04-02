@@ -19,6 +19,7 @@
                     <thead>
                         <tr>
                             <th>{{ __("Title") }}</th>
+                            <th>{{ __("Create At") }}</th>
                             <th>{{ __("Action") }}</th>
                         </tr>
                     </thead>
@@ -29,7 +30,19 @@
                         <tr>
                             {{-- Title --}}
                             <td>
-                                {{ $post->title }}
+                                <p>
+                                    <img
+                                        alt="image"
+                                        class="mr-3"
+                                        src="{{ asset('img/' . $post->getThumbnail() ) }}">
+                                    {{ $post->title }}
+                                </p>
+                            </td>
+                            {{-- Created At --}}
+                            <td>
+                                <small class="text-muted">
+                                    {{ $post->created_at->diffForHumans() }}
+                                </small>
                             </td>
                             {{-- Manage --}}
                             <td>

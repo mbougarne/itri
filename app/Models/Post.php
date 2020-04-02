@@ -27,6 +27,11 @@ class Post extends Model
         ][$attribute];
     }
 
+    public function getThumbnail()
+    {
+        return $this->thumbnail ?? 'default-latest-post.jpg';
+    }
+
     public function setSlugAttribute($value)
     {
         $this->attributes['slug'] = Str::slug($value, '-');

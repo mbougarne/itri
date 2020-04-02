@@ -22,9 +22,9 @@
             {{-- Content --}}
             <div class="dropdown-menu dropdown-list dropdown-menu-right">
                 <div class="dropdown-header">
-                    Messages
+                    {{ __("Messages") }}
                     <div class="float-right">
-                        <a href="#">Mark All As Read</a>
+                        <a href="#">{{ __("Mark All As Read") }}</a>
                     </div>
                 </div>
                 <div class="dropdown-list-content dropdown-list-message">
@@ -37,7 +37,7 @@
                 </div>
                 <div class="dropdown-footer text-center">
                     <a href="#">
-                        View All
+                        {{ __("View All") }}
                         <i class="fas fa-chevron-right"></i>
                     </a>
                 </div>
@@ -55,9 +55,9 @@
             {{-- Comment --}}
             <div class="dropdown-menu dropdown-list dropdown-menu-right">
                 <div class="dropdown-header">
-                    Notifications
+                    {{ __("Notifications") }}
                     <div class="float-right">
-                        <a href="#">Mark All As Read</a>
+                        <a href="#">{{ __("Mark All As Read") }}</a>
                     </div>
                 </div>
 
@@ -74,7 +74,8 @@
 
                 </div>
                 <div class="dropdown-footer text-center">
-                    <a href="#">View All
+                    <a href="#">
+                        {{ __("View All") }}
                         <i class="fas fa-chevron-right"></i>
                     </a>
                 </div>
@@ -88,7 +89,7 @@
                 class="nav-link dropdown-toggle nav-link-lg nav-link-user">
                 <img
                     alt="{{auth()->user()->username ?? 'John Doe'}}"
-                    src="../assets/img/avatar/avatar-1.png"
+                    src="{{ asset('img/avatar-1.png') }}"
                     class="rounded-circle mr-1">
 
                 <div class="d-sm-none d-lg-inline-block">
@@ -99,16 +100,19 @@
             <div class="dropdown-menu dropdown-menu-right">
                 {{-- Profile --}}
                 <a href="features-profile.html" class="dropdown-item has-icon">
-                    <i class="far fa-user"></i> Profile
+                    <i class="far fa-user"></i>
+                    {{ __("Profile") }}
                 </a>
                 {{-- Settings --}}
                 <a href="features-settings.html" class="dropdown-item has-icon">
-                    <i class="fas fa-cog"></i> Settings
+                    <i class="fas fa-cog"></i>
+                    {{ __("Settings") }}
                 </a>
                 <div class="dropdown-divider"></div>
                 {{-- Logout --}}
                 <a href="#" class="dropdown-item has-icon text-danger">
-                    <i class="fas fa-sign-out-alt"></i> Logout
+                    <i class="fas fa-sign-out-alt"></i>
+                    {{ __("Logout") }}
                 </a>
             </div>
         </li>

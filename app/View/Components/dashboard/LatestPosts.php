@@ -7,7 +7,6 @@ use App\Models\Post;
 
 class LatestPosts extends Component
 {
-
     /**
      * Get the view / contents that represent the component.
      *
@@ -19,13 +18,22 @@ class LatestPosts extends Component
     }
 
     /**
+     * Return latest posts
+     *
+     * @return self::getLatestPosts
+     */
+    public function posts()
+    {
+        return $this->getLatestPosts();
+    }
+
+    /**
      * Get latest posts
      *
-     * @param \App\Models\Post $posts
-     * @return \App\Models\Post $posts
+     * @return \App\Models\Post
      */
-    public function posts(Post $posts) : object
+    protected function getLatestPosts() : object
     {
-        return $posts;
+        return Post::published()->orderBy("created_at", "desc")->limit(5)->get();
     }
 }

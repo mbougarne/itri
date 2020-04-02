@@ -18,6 +18,11 @@ class Comment extends Model
         return $query->where('is_approved', 1);
     }
 
+    public function scopePending($query)
+    {
+        return $query->where('is_approved', 1);
+    }
+
     public function getIsApprovedAttribute($attribute)
     {
         return [
