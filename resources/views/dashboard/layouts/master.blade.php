@@ -3,7 +3,7 @@
 <div class="main-content">
     <section class="section">
 
-        <x-breadcrumb title="Home" />
+        <x-breadcrumb :title="$title" />
 
         <div class="section-body">
             @yield('content')

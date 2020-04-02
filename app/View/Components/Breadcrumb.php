@@ -14,7 +14,7 @@ class Breadcrumb extends Component
      */
     public function __construct($title)
     {
-        $this->title = $title;
+        $this->title = ucwords($title);
     }
 
     /**

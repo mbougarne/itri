@@ -9,7 +9,7 @@
 | contains the "web" middleware group. Now create something great!
 |
 */
-Route::view('/dashboard', 'dashboard.template')->name('dashboard');
+Route::get('/dashboard', 'DashboardController@index')->name('dashboard');
 
 # User
 Route::group(['prefix' => 'users'], function () {
