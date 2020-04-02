@@ -10,4 +10,8 @@
             count="10"
         />
     </div>
+    {{-- Latest Posts --}}
+    <div class="row">
+        <x-dashboard.latest-posts :posts="$posts"/>
+    </div>
 @endsection
