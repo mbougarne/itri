@@ -13,7 +13,10 @@
     <link rel="stylesheet" href="{{ asset('default/css/components.css') }}">
     {{-- <link rel="stylesheet" href="{{ asset('default/css/rtl.css') }}"> --}}
     @yield('styles')
-    @yield('settings.styles')
+    <style>
+        {!! $settings->styles ?? '' !!}
+    </style>
+    {!! $settings->header_scripts ?? '' !!}
 </head>
 {{-- Main template Body --}}
 <body class="layout-2">

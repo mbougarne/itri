@@ -19,6 +19,6 @@
         @yield('scripts')
         <!-- Template JS File -->
         <script src="{{ asset('default/stisla/scripts.js') }}"></script>
-        @yield('settings.scripts')
+        {!! $settings->footer_scripts ?? '' !!}
     </body>
 </html>
