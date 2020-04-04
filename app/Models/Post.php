@@ -29,7 +29,7 @@ class Post extends Model
 
     public function getThumbnail()
     {
-        return $this->thumbnail ?? 'default-latest-post.jpg';
+        return (!is_null($this->thumbnail)) ? 'uploads/thumbnails/' . $this->thumbnail : 'img/default-latest-post.jpg';
     }
 
     public function setSlugAttribute($value)

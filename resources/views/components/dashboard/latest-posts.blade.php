@@ -34,7 +34,7 @@
                                     <img
                                         alt="image"
                                         class="mr-3"
-                                        src="{{ asset('img/' . $post->getThumbnail() ) }}">
+                                        src="{{ asset($post->getThumbnail()) }}">
                                     {{ $post->title }}
                                 </p>
                             </td>

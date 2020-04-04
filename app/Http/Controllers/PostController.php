@@ -25,7 +25,20 @@ class PostController extends Controller
      */
     public function index()
     {
-        return view('templates.default.posts', ['posts' => $this->repository->getAll()]);
+        $title = "Posts";
+        $description = "Manage your posts";
+        $links = [
+            'posts' => 'All',
+            'posts.published' => 'Published',
+            'posts.pending' => 'Pending'
+        ];
+
+        return view('dashboard.posts.index', [
+            'posts' => $this->repository->getAll(),
+            'title' => $title,
+            'description' => $description,
+            'links' => $links
+        ]);
     }
 
     /**
