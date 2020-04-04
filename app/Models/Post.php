@@ -39,12 +39,12 @@ class Post extends Model
 
     public function categories()
     {
-        return $this->belongsToMany(Category::class, 'category_post', 'category_id', 'post_id');
+        return $this->belongsToMany(Category::class, 'category_post', 'category_id', 'post_id')->withTimestamps();
     }
 
     public function tags()
     {
-        return $this->belongsToMany(Tag::class, 'tag_post', 'tag_id', 'post_id');
+        return $this->belongsToMany(Tag::class, 'tag_post', 'tag_id', 'post_id')->withTimestamps();
     }
 
     public function comments()
