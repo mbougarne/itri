@@ -10,4 +10,9 @@ class DashboardController extends Controller
     {
         return view('dashboard.template', ['title' => 'dashboard', 'posts' => []]);
     }
+
+    public function credits()
+    {
+        return view('dashboard.credits', ['title' => 'credits']);
+    }
 }

@@ -10,6 +10,7 @@
 |
 */
 Route::get('/dashboard', 'DashboardController@index')->name('dashboard');
+Route::get('/credits', 'DashboardController@credits')->name('credits');
 
 # User
 Route::group(['prefix' => 'users'], function () {

@@ -169,11 +169,10 @@
                 </a>
             </li>
         </ul>
-
         {{-- Thanks --}}
         <div class="mt-4 mb-4 p-3 hide-sidebar-mini">
             <a
-                href="https://getstisla.com/docs"
+                href="{{ route('credits') }}"
                 class="btn btn-danger btn-lg btn-block btn-icon-split">
                 Thanks ❤
             </a>
