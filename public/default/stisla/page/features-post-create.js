@@ -1,4 +1,4 @@
-"use strict";
+'use strict'
 
 $("select").selectric();
 $.uploadPreview({
@@ -10,4 +10,12 @@ $.uploadPreview({
   no_label: false,                // Default: false
   success_callback: null          // Default: null
 });
+
 $(".inputtags").tagsinput('items');
+
+$('.bootstrap-tagsinput input').on('keypress', function(e){
+    if (e.keyCode == 13){
+      e.keyCode = 188;
+      e.preventDefault();
+    };
+});

@@ -48,7 +48,13 @@ class PostController extends Controller
      */
     public function create()
     {
-        return view('templates.default.posts.create');
+        $title = "Create New Post";
+        $description = "Use the form below to create new post";
+
+        return view('dashboard.posts.create', [
+            'title' => $title,
+            'description' => $description,
+        ]);
     }
 
     /**
@@ -136,6 +142,24 @@ class PostController extends Controller
         if($deleted) {
             return response('post deleted', 200);
         }
+    }
+
+    public function upload(Request $request)
+    {
+        if($request->hasFile('upload_image'))
+        {
+            $ext = $request->file('upload_image')->extension();
+            $image = Str::random() . '-' . time() . '.' . $ext;
+            $request->file('upload_image')->storeAs('thumbnails/', $image, 'uploads');
+            return response()->json([
+                'success' => true,
+                'msg' => 'Image has been saved',
+                'image' => $image,
+                'path' => asset('uploads/thumbnails/' . $image)
+            ]);
+        }
+
+        return response()->json(['error' => 'There is an issue']);
     }
 
     protected function validateRequest()

@@ -39,6 +39,7 @@ Route::group(['prefix' => 'posts'], function() {
     Route::get('/update/{post:slug}', 'PostController@edit')->name('post.update');
     Route::post('/update/{post:slug}', 'PostController@update')->name('post.update');
     Route::post('/delete/{post:slug}', 'PostController@destroy')->name('post.delete');
+    Route::post('/upload-image', 'PostController@upload')->name('upload.image');
     Route::get('/{post:slug}', 'PostController@show')->name('post.show');
 });
 

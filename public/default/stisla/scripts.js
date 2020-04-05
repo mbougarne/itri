@@ -94,23 +94,23 @@ $(function() {
         if(me.parent().hasClass("active")){
           active = true;
         }
-        
+
         $('.main-sidebar .sidebar-menu li.active > .dropdown-menu').slideUp(500, function() {
-          update_sidebar_nicescroll();          
+          update_sidebar_nicescroll();
           return false;
         });
-        
+
         $('.main-sidebar .sidebar-menu li.active').removeClass('active');
 
         if(active==true) {
-          me.parent().removeClass('active');          
-          me.parent().find('> .dropdown-menu').slideUp(500, function() {            
+          me.parent().removeClass('active');
+          me.parent().find('> .dropdown-menu').slideUp(500, function() {
             update_sidebar_nicescroll();
             return false;
           });
         }else{
-          me.parent().addClass('active');          
-          me.parent().find('> .dropdown-menu').slideDown(500, function() {            
+          me.parent().addClass('active');
+          me.parent().find('> .dropdown-menu').slideDown(500, function() {
             update_sidebar_nicescroll();
             return false;
           });
@@ -120,7 +120,7 @@ $(function() {
       });
 
       $('.main-sidebar .sidebar-menu li.active > .dropdown-menu').slideDown(500, function() {
-        update_sidebar_nicescroll();        
+        update_sidebar_nicescroll();
         return false;
       });
     }
@@ -364,22 +364,6 @@ $(function() {
         cursoropacitymax: .8,
     });
     $('.chat-content').getNiceScroll(0).doScrollTop($('.chat-content').height());
-  }
-
-  if(jQuery().summernote) {
-    $(".summernote").summernote({
-       dialogsInBody: true,
-      minHeight: 250,
-    });
-    $(".summernote-simple").summernote({
-       dialogsInBody: true,
-      minHeight: 150,
-      toolbar: [
-        ['style', ['bold', 'italic', 'underline', 'clear']],
-        ['font', ['strikethrough']],
-        ['para', ['paragraph']]
-      ]
-    });
   }
 
   if(window.CodeMirror) {

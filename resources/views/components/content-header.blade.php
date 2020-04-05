@@ -6,6 +6,7 @@
     <p class="section-lead">
         {{ __($description) }}
     </p>
+    @if(!blank($links))
     {{-- Navigation Menus --}}
     <div class="row">
         <div class="col-12">
@@ -42,4 +43,5 @@
             </div>
         </div>
     </div>
+    @endif
 </div>

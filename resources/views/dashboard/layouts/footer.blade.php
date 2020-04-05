@@ -13,8 +13,8 @@
         <script src="{{ asset('default/js/manifest.js') }}"></script>
         <script src="{{ asset('default/js/vendor.js') }}"></script>
         <script src="{{ asset('default/js/app.js') }}"></script>
-        <script src="{{ asset('default/stisla/stisla.js') }}"></script>
         <script src="{{ asset('default/stisla/sticky-kit.min.js') }}"></script>
+        <script src="{{ asset('default/stisla/stisla.js') }}"></script>
         <!-- Page Specific JS File -->
         @yield('scripts')
         <!-- Template JS File -->

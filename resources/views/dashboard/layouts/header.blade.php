@@ -11,11 +11,12 @@
     {{-- bootstrap and fontawesome --}}
     <link rel="stylesheet" href="{{ asset('default/css/bootstrap.min.css') }}">
     <link rel="stylesheet" href="{{ asset('default/css/fontawesome.min.css') }}">
+    {{-- Libs --}}
+    @yield('styles')
     <!-- Template CSS -->
     <link rel="stylesheet" href="{{ asset('default/css/style.css') }}">
     <link rel="stylesheet" href="{{ asset('default/css/components.css') }}">
     {{-- <link rel="stylesheet" href="{{ asset('default/css/rtl.css') }}"> --}}
-    @yield('styles')
     <style>
         {!! $settings->styles ?? '' !!}
     </style>

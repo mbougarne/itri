@@ -8,18 +8,6 @@
             </div>
             {{-- Content --}}
             <div class="card-body">
-                {{-- Search --}}
-                <div class="float-right">
-                    <form>
-                        <div class="input-group">
-                        <input type="text" class="form-control" placeholder="Search">
-                        <div class="input-group-append">
-                            <button class="btn btn-primary"><i class="fas fa-search"></i></button>
-                        </div>
-                        </div>
-                    </form>
-                </div>
-
                 <div class="clearfix mb-3"></div>
                 {{-- Table --}}
                 <div class="table-responsive">
