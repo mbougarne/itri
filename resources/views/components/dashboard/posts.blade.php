@@ -32,6 +32,7 @@
                                         <img
                                             alt="image"
                                             class="mr-3"
+                                            width="55"
                                             src="{{ asset($post->getThumbnail()) }}">
                                         {{ $post->title }}
                                         <div class="table-links">
@@ -51,7 +52,7 @@
                                                 {{ $category->name }}
                                             </a>
                                         @empty
-                                            {{ __("The post doesn't have a category") }}
+                                            &mdash;
                                         @endforelse
                                     </td>
                                     {{-- Tags --}}
@@ -61,7 +62,7 @@
                                                 {{ $tag->name }}
                                             </a>
                                         @empty
-                                            {{ __("The post doesn't have a tag") }}
+                                            &mdash;
                                         @endforelse
                                     </td>
                                     {{-- Created At --}}

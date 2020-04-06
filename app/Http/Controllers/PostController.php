@@ -9,12 +9,10 @@ use App\Models\Post;
 
 class PostController extends Controller
 {
-    protected Request $request;
     protected CrudRepositoryInterface $repository;
 
-    public function __construct(Request $request, CrudRepositoryInterface $repository)
+    public function __construct(CrudRepositoryInterface $repository)
     {
-        $this->request = $request;
         $this->repository = $repository;
     }
 
@@ -66,20 +64,39 @@ class PostController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store()
+    public function store(Request $request)
     {
-        return dd( $this->validateRequest());
-        $createdPost = $this->repository->save( $this->validateRequest() );
+        $request->validate([
+            'title' => 'required|unique:posts',
+            'body' => 'required',
+            'description' => 'sometimes|nullable|max:160',
+            'thumbnail' => 'sometimes|nullable|file|image|max:5000'
+        ]);
+
+        $data = [
+            'title' => $request->title,
+            'body' => $request->body,
+            'description' => $request->description,
+            'slug' => $request->title
+        ];
 
         if($this->request->hasFile('thumbnail'))
         {
-            $ext = $this->request->file('thumbnail')->extension();
-            $thumbnail = Str::slug($this->request->file('thumbnail')) . '-' . time() . '.' . $ext;
-            $this->request->file('thumbnail')->storeAs('thumbnails/', $thumbnail, 'uploads');
+            $ext = $request->file('thumbnail')->extension();
+            $thumbnail = Str::slug($request->file('thumbnail')) . '-' . time() . '.' . $ext;
+            $data = array_merge($data, ['thumbnail' => $thumbnail]);
+
+            $request->file('thumbnail')->storeAs('thumbnails/', $thumbnail, 'uploads');
         }
 
+        $createdPost = $this->repository->save( $data );
+
         if($createdPost)
-            return response('created post', 201);
+        {
+            return redirect()->route('posts')->with('success', 'The post has created successfully!');
+        }
+
+        return redirect()->back()->withErrors(['errors' => 'There is an issue. Please try again!']);
     }
 
     /**
@@ -157,18 +174,5 @@ class PostController extends Controller
         }
 
         return response()->json(['error' => 'There is an issue']);
-    }
-
-    protected function validateRequest()
-    {
-        return $this->request->validate([
-            'title' => 'required|unique:posts',
-            'body' => 'required',
-            'description' => 'sometimes|nullable|max:160',
-            'thumbnail' => 'sometimes|nullable|file|image|max:5000',
-            'is_published' => 'sometimes|boolean',
-            'categories' => 'sometimes|exists:categories,id',
-            'tags' => 'sometimes'
-        ]);
     }
 }

@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Log;
 
 class Post extends Model
 {
@@ -22,9 +23,14 @@ class Post extends Model
     public function getIsPublishedAttribute($attribute)
     {
         return [
-            0 => 'Published',
-            1 => 'Draft'
+            1 => 'Published',
+            0 => 'Draft'
         ][$attribute];
+    }
+
+    public function setSlugAttribute($value)
+    {
+        $this->attributes['slug'] = Str::slug($value, '-');
     }
 
     public function getThumbnail()
@@ -32,10 +38,6 @@ class Post extends Model
         return (!is_null($this->thumbnail)) ? 'uploads/thumbnails/' . $this->thumbnail : 'img/default-latest-post.jpg';
     }
 
-    public function setSlugAttribute($value)
-    {
-        $this->attributes['slug'] = Str::slug($value, '-');
-    }
 
     public function categories()
     {
