@@ -3,15 +3,15 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+
 use Illuminate\Support\Str;
-use App\Repository\Contracts\CrudRepositoryInterface;
-use App\Models\Post;
+use App\Repository\Contracts\PostRepositoryInterface;
 
 class PostController extends Controller
 {
-    protected CrudRepositoryInterface $repository;
+    protected $repository;
 
-    public function __construct(CrudRepositoryInterface $repository)
+    public function __construct(PostRepositoryInterface $repository)
     {
         $this->repository = $repository;
     }
@@ -33,7 +33,7 @@ class PostController extends Controller
         ];
 
         return view('dashboard.posts.index', [
-            'posts' => $this->repository->getAll(),
+            'posts' => $this->repository->all(),
             'title' => $title,
             'description' => $description,
             'links' => $links
@@ -127,20 +127,35 @@ class PostController extends Controller
      * @param  \App\Models\Post  $post
      * @return \Illuminate\Http\Response
      */
-    public function update(Post $post)
+    public function update(Request $request, Post $post)
     {
-        $data = array_merge($this->validateRequest(), ['slug' => $this->request->title]);
+        $request->validate([
+            'title' => 'required',
+            'body' => 'required',
+        ]);
+
+        $data = [
+            'title' => $request->title,
+            'body' => $request->body,
+            'slug' => $request->title,
+        ];
+
+        if($request->hasFile('thumbnail')) {
+            $data = array_merge(
+                $data,
+                [ 'thumbnail' => $this->storeThumbnail($request) ]
+            );
+        }
 
         $updatedPost = $this->repository->update($post, $data);
 
-        if($this->request->hasFile('thumbnail'))
+        if($updatedPost)
         {
-            $ext = $this->request->file('thumbnail')->extension();
-            $thumbnail = Str::slug($this->request->file('thumbnail')) . '-' . time() . '.' . $ext;
-            $this->request->file('thumbnail')->storeAs('thumbnails/', $thumbnail, 'uploads');
+            return redirect()->route('posts')->with('success', 'The post has updated successfully!');
         }
 
-        return response('created post', 201);
+        return redirect()->back()->withErrors(['errors' => 'There is an issue. Please try again!']);
+
     }
 
     /**
@@ -174,5 +189,16 @@ class PostController extends Controller
         }
 
         return response()->json(['error' => 'There is an issue']);
+    }
+
+
+    protected function storeThumbnail(Request $request) : string
+    {
+        $extension = $request->file('thumbnail')->extension();
+        $thumbnail = Str::slug($request->input('title')) . '-' . time() . '.' . $extension;
+
+        $request->file('thumbnail')->storeAs('thumbnails/', $thumbnail, 'uploads');
+
+        return $thumbnail;
     }
 }
