@@ -3,15 +3,19 @@
 {{-- Custom Styles --}}
 @section('styles')
 <link rel="stylesheet" href="{{ asset('default/css/summernote-bs4.css') }}">
-    <link rel="stylesheet" href="{{ asset('default/css/selectric.css') }}">
-    <link rel="stylesheet" href="{{ asset('default/css/bootstrap-tagsinput.css') }}">
+<link rel="stylesheet" href="{{ asset('default/css/selectric.css') }}">
+<link rel="stylesheet" href="{{ asset('default/css/bootstrap-tagsinput.css') }}">
 @endsection
 
 @section('content')
     {{-- Navigation --}}
     <x-content-header :title="$title" :description="$description" />
     {{-- Create --}}
-    <form action="" method="POST" enctype="multipart/form-data">
+    <form
+        action="{{ route('post.create') }}"
+        method="POST"
+        enctype="multipart/form-data">
+        {{-- Fields --}}
         <div class="row">
             <div class="col-12">
                 {{-- Card --}}
@@ -45,11 +49,33 @@
                                 {{ __("Categories") }}
                             </label>
                             <div class="col-sm-12 col-md-7">
-                                <select class="form-control selectric">
-                                    <option>Tech</option>
-                                    <option>News</option>
-                                    <option>Political</option>
-                                </select>
+
+                                @if ($categories->count())
+
+                                    <select
+                                        class="form-control selectric"
+                                        name="categories">
+                                        <option selected disabled>
+                                            {{ __("Select Category") }}
+                                        </option>
+
+                                    @foreach ($categories as $category)
+                                        <option value="{{ $category->id }}">
+                                            {{ $category->name }}
+                                        </option>
+                                    @endforeach
+
+                                    </select>
+
+                                @else
+                                    <p>
+                                        {{ __("The system doesn't have any category yet!") }}
+                                        <a href="{{ route('category.create') }}">
+                                            {{ __("Create New One") }}
+                                        </a>
+                                    </p>
+                                @endif
+
                             </div>
                         </div>
                         {{-- Description --}}

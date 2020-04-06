@@ -12,6 +12,7 @@
     <link rel="stylesheet" href="{{ asset('default/css/bootstrap.min.css') }}">
     <link rel="stylesheet" href="{{ asset('default/css/fontawesome.min.css') }}">
     {{-- Libs --}}
+    <link rel="stylesheet" href="{{ asset('default/css/iziToast.min.css') }}">
     @yield('styles')
     <!-- Template CSS -->
     <link rel="stylesheet" href="{{ asset('default/css/style.css') }}">

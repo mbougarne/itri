@@ -27,6 +27,7 @@ class PostController extends Controller
     {
         $title = "Posts";
         $description = "Manage your posts";
+
         $links = [
             'posts' => 'All',
             'posts.published' => 'Published',
@@ -50,10 +51,12 @@ class PostController extends Controller
     {
         $title = "Create New Post";
         $description = "Use the form below to create new post";
+        $categories = $this->repository->categories();
 
         return view('dashboard.posts.create', [
             'title' => $title,
             'description' => $description,
+            'categories' => $categories
         ]);
     }
 
@@ -65,14 +68,8 @@ class PostController extends Controller
      */
     public function store()
     {
-        $data = $this->validateRequest();
-
-        if(!$this->request->has('slug'))
-        {
-            $data = array_merge($data, ['slug' => $this->request->title]);
-        }
-
-        $createdPost = $this->repository->save($data);
+        return dd( $this->validateRequest());
+        $createdPost = $this->repository->save( $this->validateRequest() );
 
         if($this->request->hasFile('thumbnail'))
         {
@@ -167,12 +164,11 @@ class PostController extends Controller
         return $this->request->validate([
             'title' => 'required|unique:posts',
             'body' => 'required',
-            'slug' => 'sometimes|nullable|unique:posts',
             'description' => 'sometimes|nullable|max:160',
             'thumbnail' => 'sometimes|nullable|file|image|max:5000',
             'is_published' => 'sometimes|boolean',
             'categories' => 'sometimes|exists:categories,id',
-            'tags' => 'sometimes|exists:categories,id'
+            'tags' => 'sometimes'
         ]);
     }
 }

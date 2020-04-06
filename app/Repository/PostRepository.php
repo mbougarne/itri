@@ -2,7 +2,7 @@
 
 namespace App\Repository;
 
-use App\Models\Post;
+use App\Models\{Post, Category};
 use App\Repository\Contracts\CrudRepositoryInterface;
 
 class PostRepository implements CrudRepositoryInterface
@@ -64,5 +64,10 @@ class PostRepository implements CrudRepositoryInterface
     public function delete($post)
     {
         return $post->delete();
+    }
+
+    public function categories()
+    {
+        return Category::all();
     }
 }
