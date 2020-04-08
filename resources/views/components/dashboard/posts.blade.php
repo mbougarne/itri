@@ -33,7 +33,7 @@
                                             alt="image"
                                             class="mr-3"
                                             width="55"
-                                            src="{{ asset($post->getThumbnail()) }}">
+                                            src="{{ asset($post->thumbnail) }}">
                                         {{ $post->title }}
                                         <div class="table-links">
                                             <a href="{{ route('post.show', $post->slug) }}">

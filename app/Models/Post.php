@@ -43,7 +43,7 @@ class Post extends Model
 
     public function getThumbnailAttribute($value)
     {
-        return 'uploads/thumbnails/' . $value ?? 'img/default-latest-post.jpg';
+        return ($value) ? 'uploads/thumbnails/' . $value : 'img/default-latest-post.jpg';
     }
 
 
