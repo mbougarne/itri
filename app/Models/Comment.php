@@ -49,7 +49,7 @@ class Comment extends Model
         return $this->belongsTo(Comment::class);
     }
 
-    public function childs()
+    public function children()
     {
         return $this->HasMany(Comment::class);
     }
