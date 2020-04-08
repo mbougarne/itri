@@ -21,11 +21,12 @@ class TagRepository implements TagRepositoryInterface
      * Get single tags based on its slug
      *
      * @param string $key slug by default
+     * @param mixed $value
      * @return \Illuminate\Database\Eloquent\Model|null
      */
-    public function single(string $key)
+    public function single(string $key = 'slug', $value)
     {
-        return Tag::firstWhere('slug', $key);
+        return Tag::firstWhere($key, $value);
     }
 
      /**

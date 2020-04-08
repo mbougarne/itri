@@ -17,9 +17,10 @@ interface TagRepositoryInterface
      * Get single Tag based on its slug
      *
      * @param string $key
+     * @param mixed $value
      * @return \Illuminate\Database\Eloquent\Model|null
      */
-    public function single(string $key);
+    public function single(string $key = 'slug', $value);
 
     /**
      * Create new Tag

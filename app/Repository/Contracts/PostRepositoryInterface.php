@@ -22,12 +22,13 @@ interface PostRepositoryInterface
     public function paginate(int $limit = 15);
 
     /**
-     * Get single post based on its slug
+     * Get single post based on key -> value
      *
      * @param string $key
+     * @param mixed $value
      * @return \Illuminate\Database\Eloquent\Model|null
      */
-    public function single(string $key);
+    public function single(string $key = 'slug', $value);
 
     /**
      * Create new post

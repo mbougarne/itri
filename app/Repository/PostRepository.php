@@ -29,14 +29,15 @@ class PostRepository implements PostRepositoryInterface
     }
 
     /**
-     * Get single post based on its slug
+     * Get single post based on key -> value
      *
      * @param string $key slug by default
+     * @param mixed $value
      * @return \Illuminate\Database\Eloquent\Model|null
      */
-    public function single(string $key)
+    public function single(string $key = 'slug', $value)
     {
-        return Post::firstWhere('slug', $key);
+        return Post::firstWhere($key, $value);
     }
 
      /**

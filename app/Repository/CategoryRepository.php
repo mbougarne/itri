@@ -21,11 +21,12 @@ class categoryRepository implements CategoryRepositoryInterface
      * Get single category based on its slug
      *
      * @param string $key slug by default
+     * @param mixed $value
      * @return \Illuminate\Database\Eloquent\Model|null
      */
-    public function single(string $key)
+    public function single(string $key = 'slug', $value)
     {
-        return Category::firstWhere('slug', $key);
+        return Category::firstWhere($key, $value);
     }
 
      /**
