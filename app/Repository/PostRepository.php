@@ -3,7 +3,7 @@
 namespace App\Repository;
 
 use App\Repository\Contracts\PostRepositoryInterface;
-use App\Models\{Post, Category};
+use App\Models\Post;
 
 class PostRepository implements PostRepositoryInterface
 {
@@ -87,22 +87,22 @@ class PostRepository implements PostRepositoryInterface
 
     /**
      * Get all categories
-     *
+     * @param \App\Models\Post $post
      * @return \Illuminate\Database\Eloquent\Collection|static[]
      */
-    public function categories()
+    public function categories(Post $post)
     {
-        return Category::all();
+        return $post->categories();
     }
 
     /**
      * Get all tags
-     *
+     * @param \App\Models\Post $post
      * @return \Illuminate\Database\Eloquent\Collection|static[]
      */
-    public function tags()
+    public function tags(Post $post)
     {
-        return Tag::all();
+        return $post->tags();
     }
 
     /**
