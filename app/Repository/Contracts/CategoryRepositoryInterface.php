@@ -50,9 +50,10 @@ interface CategoryRepositoryInterface
     /**
      * Fet category posts
      *
+     * @param \App\Models\Category $category
      * @return \Illuminate\Database\Eloquent\Collection|static[]
      */
-    public function posts();
+    public function posts(Category $category);
 
     /**
      * Get category children

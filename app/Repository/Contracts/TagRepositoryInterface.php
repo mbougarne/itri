@@ -50,7 +50,8 @@ interface TagRepositoryInterface
     /**
      * Get Tag posts
      *
+     * @param \App\Models\Tag $tag
      * @return \Illuminate\Database\Eloquent\Collection|static[]
      */
-    public function posts();
+    public function posts(Tag $tag);
 }

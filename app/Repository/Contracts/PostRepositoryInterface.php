@@ -58,14 +58,16 @@ interface PostRepositoryInterface
     /**
      * Get all categories
      *
+     * @param \App\Models\Post $post
      * @return \Illuminate\Database\Eloquent\Collection|static[]
      */
-    public function categories();
+    public function categories(Post $post);
 
     /**
      * Get all tags
      *
+     * @param \App\Models\Post $post
      * @return \Illuminate\Database\Eloquent\Collection|static[]
      */
-    public function tags();
+    public function tags(Post $post);
 }
