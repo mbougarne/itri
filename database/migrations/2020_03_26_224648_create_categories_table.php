@@ -20,7 +20,7 @@ class CreateCategoriesTable extends Migration
             $table->string('name');
             $table->string('description')->nullable();
             $table->string('thumbnail')->nullable();;
-            $table->boolean('is_sub')->default(1);
+            $table->boolean('is_sub')->default(0);
             $table->timestamps();
 
             $table->foreign('parent_id')->references('id')->on('categories')->onDelete('set null');
