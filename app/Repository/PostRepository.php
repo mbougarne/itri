@@ -63,7 +63,7 @@ class PostRepository implements PostRepositoryInterface
      * @param array $data post data
      * @return \Illuminate\Database\Eloquent\Model|Boolean
      */
-    public function update($post, array $data)
+    public function update(Post $post, array $data)
     {
         $updatedPost = $post->update($data);
 
@@ -80,7 +80,7 @@ class PostRepository implements PostRepositoryInterface
      * @param \App\Models\Post $post
      * @return \Illuminate\Database\Eloquent\Model|Boolean
      */
-    public function delete($post)
+    public function delete(Post $post)
     {
         return $post->delete();
     }
