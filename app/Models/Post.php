@@ -4,11 +4,19 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
-use Illuminate\Support\Facades\Log;
 
 class Post extends Model
 {
     protected $guarded = [];
+
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::creating(function ($query) {
+            $query->slug = Str::slug($query->title);
+        });
+    }
 
     public function scopePublished($query)
     {
@@ -28,14 +36,14 @@ class Post extends Model
         ][$attribute];
     }
 
-    public function setSlugAttribute($value)
+    public function setTitleAttribute($value)
     {
-        $this->attributes['slug'] = Str::slug($value, '-');
+        $this->attributes['title'] = Str::title($value);
     }
 
-    public function getThumbnail()
+    public function getThumbnailAttribute($value)
     {
-        return (!is_null($this->thumbnail)) ? 'uploads/thumbnails/' . $this->thumbnail : 'img/default-latest-post.jpg';
+        return 'uploads/thumbnails/' . $value ?? 'img/default-latest-post.jpg';
     }
 
 

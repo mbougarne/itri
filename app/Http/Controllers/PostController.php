@@ -71,21 +71,14 @@ class PostController extends Controller
      */
     public function store(Request $request)
     {
-        $request->validate([
+        $data = $request->validate([
             'title' => 'required|unique:posts',
             'body' => 'required',
             'description' => 'sometimes|nullable|max:160',
             'thumbnail' => 'sometimes|nullable|file|image|max:5000'
         ]);
 
-        $data = [
-            'title' => $request->title,
-            'body' => $request->body,
-            'description' => $request->description,
-            'slug' => $request->title
-        ];
-
-        if($this->request->hasFile('thumbnail'))
+        if($request->hasFile('thumbnail'))
         {
             $ext = $request->file('thumbnail')->extension();
             $thumbnail = Str::slug($request->file('thumbnail')) . '-' . time() . '.' . $ext;
