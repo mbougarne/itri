@@ -6,14 +6,19 @@ use Illuminate\Http\Request;
 
 use Illuminate\Support\Str;
 use App\Repository\Contracts\PostRepositoryInterface;
+use App\Repository\Contracts\CategoryRepositoryInterface;
 
 class PostController extends Controller
 {
     protected $repository;
+    protected $categoryRepository;
 
-    public function __construct(PostRepositoryInterface $repository)
+    public function __construct(
+        PostRepositoryInterface $repository,
+        CategoryRepositoryInterface $categoryRepository)
     {
         $this->repository = $repository;
+        $this->categoryRepository = $categoryRepository;
     }
 
     /**
@@ -49,7 +54,7 @@ class PostController extends Controller
     {
         $title = "Create New Post";
         $description = "Use the form below to create new post";
-        $categories = $this->repository->categories();
+        $categories = $this->categoryRepository->all();
 
         return view('dashboard.posts.create', [
             'title' => $title,
