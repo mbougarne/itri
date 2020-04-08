@@ -175,6 +175,8 @@ return [
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
         App\Repository\Provider\PostRepositoryProvider::class,
+        App\Repository\Provider\CategoryRepositoryProvider::class,
+        App\Repository\Provider\TagRepositoryProvider::class,
 
     ],
 
