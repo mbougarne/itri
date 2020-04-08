@@ -42,11 +42,11 @@ class categoryRepository implements CategoryRepositoryInterface
     /**
      * Update an existing category
      *
-     * @param \App\Models\category $category
+     * @param \App\Models\Category $category
      * @param array $data category data
      * @return \Illuminate\Database\Eloquent\Model|Boolean
      */
-    public function update($category, array $data)
+    public function update(Category $category, array $data)
     {
         return $category->update($data);
     }
@@ -54,10 +54,10 @@ class categoryRepository implements CategoryRepositoryInterface
     /**
      * Delete a category
      *
-     * @param \App\Models\category $category
+     * @param \App\Models\Category $category
      * @return \Illuminate\Database\Eloquent\Model|Boolean
      */
-    public function delete($category)
+    public function delete(Category $category)
     {
         return $category->delete();
     }
@@ -65,6 +65,7 @@ class categoryRepository implements CategoryRepositoryInterface
     /**
      * Get category posts
      *
+     * @param \App\Models\Category $category
      * @return \Illuminate\Database\Eloquent\Collection|static[]
      */
     public function posts(Category $category)
@@ -75,6 +76,7 @@ class categoryRepository implements CategoryRepositoryInterface
     /**
      * Get category children
      *
+     * @param \App\Models\Category $category
      * @return \Illuminate\Database\Eloquent\Collection|static[]
      */
     public function children(Category $category)
@@ -85,6 +87,7 @@ class categoryRepository implements CategoryRepositoryInterface
     /**
      * Get category parent
      *
+     * @param \App\Models\Category $category
      * @return \Illuminate\Database\Eloquent\Collection|static[]
      */
     public function parent(Category $category)
