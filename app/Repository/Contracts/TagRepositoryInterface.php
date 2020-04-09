@@ -31,6 +31,14 @@ interface TagRepositoryInterface
     public function save(array $data);
 
     /**
+     * Create new tag
+     *
+     * @param array $tags
+     * @return \Illuminate\Database\Eloquent\Model|Boolean
+     */
+    public function saveFromPost(array $tags);
+
+    /**
      * Update an existing Tag
      *
      * @param \App\Models\Tag $tag

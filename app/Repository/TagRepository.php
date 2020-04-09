@@ -41,6 +41,26 @@ class TagRepository implements TagRepositoryInterface
     }
 
     /**
+     * Create new tag
+     *
+     * @param array $tags
+     * @return \Illuminate\Database\Eloquent\Model|Boolean
+     */
+    public function saveFromPost(array $tags)
+    {
+        if(!is_array($tags)) return false;
+
+        $created_tags_ids = [];
+        foreach($tags as $tag)
+        {
+            $createdTag = Tag::firstOrCreate(['name' => $tag]);
+            $created_tags_ids[] = $createdTag->id;
+        }
+
+        return $created_tags_ids;
+    }
+
+    /**
      * Update an existing tag
      *
      * @param \App\Models\Tag $tag

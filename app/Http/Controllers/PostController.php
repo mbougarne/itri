@@ -75,7 +75,9 @@ class PostController extends Controller
             'title' => 'required|unique:posts',
             'body' => 'required',
             'description' => 'sometimes|nullable|max:160',
-            'thumbnail' => 'sometimes|nullable|file|image|max:5000'
+            'thumbnail' => 'sometimes|nullable|file|image|max:5000',
+            'categories' => 'sometimes|nullable',
+            'tags' => 'sometimes|nullable',
         ]);
 
         if($request->hasFile('thumbnail'))

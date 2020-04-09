@@ -3,10 +3,18 @@
 namespace App\Repository;
 
 use App\Repository\Contracts\PostRepositoryInterface;
+use App\Repository\Contracts\TagRepositoryInterface;
 use App\Models\Post;
 
 class PostRepository implements PostRepositoryInterface
 {
+    protected $tagsRepository;
+
+    public function __construct(TagRepositoryInterface $tagsRepository)
+    {
+        $this->tagsRepository = $tagsRepository;
+    }
+
     /**
      * Get all posts
      *
@@ -48,11 +56,22 @@ class PostRepository implements PostRepositoryInterface
      */
     public function save(array $data)
     {
+        $get_tags_from_data = $data['tags'] ?? null;
+        $get_cats_from_data = $data['categories'] ?? null;
+
+        unset($data['tags'], $data['categories']);
+
         $post = Post::create($data);
 
-        if(in_array('categories', $data)) $post->categories->sync($data['categories']);
+        if($get_tags_from_data) {
 
-        if(in_array('tags', $data)) $post->tags->sync($data['tags']);
+            $tags = explode(',', $get_tags_from_data);
+            $tags_ids = $this->storeTags($tags);
+            $post->tags()->sync($tags_ids);
+
+        }
+
+        if($get_cats_from_data) $post->categories()->sync($get_cats_from_data);
 
         return $post;
     }
@@ -110,9 +129,9 @@ class PostRepository implements PostRepositoryInterface
      * Store tage
      *
      * @param array $tags
-     * @return \Illuminate\Database\Eloquent\Collection|static[]
+     * @return \Illuminate\Database\Eloquent\Model|Boolean
      */
     protected function storeTags(array $tags){
-
+        return $this->tagsRepository->saveFromPost($tags);
     }
 }
