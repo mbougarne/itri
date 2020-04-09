@@ -34,7 +34,8 @@
                                     <img
                                         alt="image"
                                         class="mr-3"
-                                        src="{{ asset($post->getThumbnail()) }}">
+                                        width="55"
+                                        src="{{ asset($post->thumbnail) }}">
                                     {{ $post->title }}
                                 </p>
                             </td>
@@ -42,6 +43,8 @@
                             <td>
                                 <small class="text-muted">
                                     {{ $post->created_at->diffForHumans() }}
+                                    <br>
+                                    {{ $post->created_at->toFormattedDateString() }}
                                 </small>
                             </td>
                             {{-- Manage --}}
