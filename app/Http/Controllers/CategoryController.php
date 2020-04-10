@@ -2,11 +2,19 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Category;
 use Illuminate\Http\Request;
+
+use App\Models\Category;
+use App\Repository\Contracts\CategoryRepositoryInterface;
 
 class CategoryController extends Controller
 {
+    protected $repository;
+
+    public function __construct(CategoryRepositoryInterface $repository)
+    {
+        $this->repository = $repository;
+    }
     /**
      * Display a listing of the resource.
      *
@@ -14,7 +22,17 @@ class CategoryController extends Controller
      */
     public function index()
     {
-        //
+        $title = "Categories";
+        $description = "Manage your categories";
+
+        $links = [ 'categories' => 'All' ];
+
+        return view('dashboard.categories.index', [
+            'categories' => $this->repository->all(),
+            'title' => $title,
+            'description' => $description,
+            'links' => $links
+        ]);
     }
 
     /**
