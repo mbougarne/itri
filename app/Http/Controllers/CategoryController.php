@@ -42,7 +42,15 @@ class CategoryController extends Controller
      */
     public function create()
     {
-        //
+        $title = "Create New Category";
+        $description = "Use the form below to create new category";
+        $categories = $this->repository->all();
+
+        return view('dashboard.categories.create', [
+            'title' => $title,
+            'description' => $description,
+            'categories' => $categories
+        ]);
     }
 
     /**
