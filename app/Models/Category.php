@@ -3,10 +3,18 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Str;
 
 class Category extends Model
 {
     protected $guarded = [];
+
+    protected static function booted()
+    {
+        return static::creating( function($query) {
+            $query->slug = Str::slug($query->name);
+        });
+    }
 
     public function scopeChild($query)
     {
@@ -24,6 +32,11 @@ class Category extends Model
             0 => 'Parent',
             1 => 'Sub Category'
         ][$attribute];
+    }
+
+    public function getThumbnailAttribute($value)
+    {
+        return ($value) ? 'uploads/thumbnails/' . $value : 'img/default-latest-post.jpg';
     }
 
     public function posts()
