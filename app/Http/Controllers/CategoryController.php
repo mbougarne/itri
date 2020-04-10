@@ -53,7 +53,7 @@ class CategoryController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        return $this->repository->save($request->all());
     }
 
     /**
