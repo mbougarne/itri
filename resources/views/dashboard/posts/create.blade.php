@@ -50,32 +50,28 @@
                             </label>
                             <div class="col-sm-12 col-md-7">
 
-                                @if ($categories->count())
+                                <div class="selectgroup w-100">
+                                    @forelse ($categories as $category)
 
-                                    <select
-                                        class="form-control selectric"
-                                        name="categories">
-                                        <option selected disabled>
-                                            {{ __("Select Category") }}
-                                        </option>
-
-                                    @foreach ($categories as $category)
-                                        <option value="{{ $category->id }}">
-                                            {{ $category->name }}
-                                        </option>
-                                    @endforeach
-
-                                    </select>
-
-                                @else
-                                    <p>
-                                        {{ __("The system doesn't have any category yet!") }}
-                                        <a href="{{ route('category.create') }}">
-                                            {{ __("Create New One") }}
-                                        </a>
-                                    </p>
-                                @endif
-
+                                        <label class="selectgroup-item">
+                                            <input
+                                                type="checkbox"
+                                                name="categories[]"
+                                                value="{{ old('categories', $category->id) }}"
+                                                class="selectgroup-input">
+                                            <span class="selectgroup-button">
+                                                {{ $category->name }}
+                                            </span>
+                                        </label>
+                                    @empty
+                                        <p>
+                                            {{ __("The system doesn't have any category yet!") }}
+                                            <a href="{{ route('category.create') }}">
+                                                {{ __("Create New One") }}
+                                            </a>
+                                        </p>
+                                    @endforelse
+                                </div>
                             </div>
                         </div>
                         {{-- Description --}}
@@ -181,6 +177,7 @@
 <script src="{{ asset('default/stisla/page/features-post-create.js') }}"></script>
 
 <script>
+
     $(document).ready( function($) {
 
         function sendFile(file) {
