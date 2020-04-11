@@ -5,10 +5,17 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
 
+use App\Scopes\CreatedAtScope;
+
 class Post extends Model
 {
     protected $guarded = [];
 
+    /**
+     * The "booting" method of the model.
+     *
+     * @return void
+     */
     protected static function boot()
     {
         parent::boot();
@@ -16,7 +23,11 @@ class Post extends Model
         static::creating(function ($query) {
             $query->slug = Str::slug($query->title);
         });
+
+        static::addGlobalScope(new CreatedAtScope);
     }
+
+
 
     public function scopePublished($query)
     {
