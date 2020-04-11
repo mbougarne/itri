@@ -27,16 +27,22 @@
                                     </td>
                                     {{-- title --}}
                                     <td>
-                                        <img
-                                            alt="image"
-                                            class="mr-3"
-                                            width="55"
-                                            src="{{ asset($category->thumbnail) }}">
-                                        {{ $category->name }}
-                                        <br>
-                                        <small>
-                                            {{ $category->description }}
-                                        </small>
+                                        <div>
+                                            <div class="float-left">
+                                                <img
+                                                    alt="image"
+                                                    class="mr-3"
+                                                    width="65"
+                                                    src="{{ asset($category->thumbnail) }}">
+                                            </div>
+                                            <span>
+                                                {{ $category->name }}
+                                                <br>
+                                                <small>
+                                                    {{ $category->description }}
+                                                </small>
+                                            </span>
+                                        </div>
                                         <div class="table-links">
                                             <div class="bullet"></div>
                                             <a href="{{ route('category.update', $category->slug) }}">
@@ -46,7 +52,7 @@
                                     </td>
                                     {{-- Status --}}
                                     <td>
-                                        <div class="badge badge-{{($category->is_sub == 'Sub Category') ? 'primary' : 'info'}}">
+                                        <div class="badge badge-{{($category->is_sub == 'Sub Category') ? 'info' : 'primary'}}">
                                             {{ $category->is_sub }}
                                         </div>
                                     </td>

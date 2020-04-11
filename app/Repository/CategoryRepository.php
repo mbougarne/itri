@@ -37,7 +37,8 @@ class categoryRepository implements CategoryRepositoryInterface
      */
     public function save(array $data)
     {
-        return Category::create($data);
+        $category = (array_key_exists('parent_id', $data)) ? array_merge($data, ['is_sub' => 1]) : $data;
+        return Category::create($category);
     }
 
     /**

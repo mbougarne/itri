@@ -36,7 +36,7 @@ class Category extends Model
 
     public function getThumbnailAttribute($value)
     {
-        return ($value) ? 'uploads/thumbnails/' . $value : 'img/default-latest-post.jpg';
+        return ($value) ? 'uploads/categories/' . $value : 'img/default-latest-post.jpg';
     }
 
     public function posts()
