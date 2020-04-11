@@ -52,10 +52,10 @@
                                     </td>
                                     {{-- Created At --}}
                                     <td>
-                                        {{ $post->created_at->diffForHumans() }}
+                                        {{ $category->created_at->diffForHumans() }}
                                         <br>
                                         <small class="text-muted">
-                                            {{ $post->created_at->toFormattedDateString() }}
+                                            {{ $category->created_at->toFormattedDateString() }}
                                         </small>
                                     </td>
                                 </tr>

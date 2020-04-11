@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
 
 use App\Models\Category;
 use App\Repository\Contracts\CategoryRepositoryInterface;
@@ -61,7 +62,33 @@ class CategoryController extends Controller
      */
     public function store(Request $request)
     {
-        return $this->repository->save($request->all());
+        $request->validate([
+            'name' => 'required|unique:categories',
+            'thumbnail' => 'sometimes|nullable|file|image|max:5000'
+        ]);
+
+        $data = $request->all();
+
+        if($request->hasFile('thumbnail'))
+        {
+            $extension = $request->file('thumbnail')->extension();
+            $thumbnail = Str::random() . '-' . time() . '.' . $extension;
+
+            $request->file('thumbnail')->storeAs('categories/', $thumbnail, 'uploads');
+
+            unset($data['thumbnail']);
+
+            $data = array_merge($data, ['thumbnail' => $thumbnail]);
+        }
+
+        $createdCategory = $this->repository->save($data);
+
+        if($createdCategory)
+        {
+            return redirect()->route('categories')->with('success', "The category has been created");
+        }
+
+        return redirect()->back()->withErrors(['errors' => 'There is an issue. Please try again!']);
     }
 
     /**
