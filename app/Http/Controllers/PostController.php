@@ -108,18 +108,28 @@ class PostController extends Controller
      */
     public function show(Post $post)
     {
-        return view('templates.default.posts.single', ['post' => $post]);
+        return view('dashboard.posts.single', ['post' => $post]);
     }
 
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Models\Post  $post
+     * @param  string $slug
      * @return \Illuminate\Http\Response
      */
-    public function edit(Post $post)
+    public function edit(string $slug)
     {
-        return view('templates.default.posts.edit', ['post' => $post]);
+        $post = $this->repository->single($slug);
+        $title = "Update Post";
+        $description = "{$post->title}";
+        $categories = $this->categoryRepository->all();
+
+        return view('dashboard.posts.update', [
+            'post' => $post,
+            'title' => $title,
+            'description' => $description,
+            'categories' => $categories
+        ]);
     }
 
     /**

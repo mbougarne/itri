@@ -43,7 +43,7 @@ class PostRepository implements PostRepositoryInterface
      * @param mixed $value
      * @return \Illuminate\Database\Eloquent\Model|null
      */
-    public function single(string $key = 'slug', $value)
+    public function single($value, string $key = 'slug')
     {
         return Post::firstWhere($key, $value);
     }

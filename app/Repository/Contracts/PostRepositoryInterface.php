@@ -24,11 +24,11 @@ interface PostRepositoryInterface
     /**
      * Get single post based on key -> value
      *
-     * @param string $key
      * @param mixed $value
+     * @param string $key
      * @return \Illuminate\Database\Eloquent\Model|null
      */
-    public function single(string $key = 'slug', $value);
+    public function single($value, string $key = 'slug');
 
     /**
      * Create new post
