@@ -42,12 +42,13 @@ class RouteServiceProvider extends ServiceProvider
      */
     public function map()
     {
+        // custom files
+        $this->mapAdminRoutes();
+
         $this->mapApiRoutes();
 
         $this->mapWebRoutes();
 
-        // custom files
-        $this->mapAdminRoutes();
     }
 
     /**
@@ -71,7 +72,8 @@ class RouteServiceProvider extends ServiceProvider
      */
     protected function mapAdminRoutes()
     {
-        Route::middleware('web')
+        Route::prefix('dashboard')
+            ->middleware('web')
             ->namespace($this->namespace)
             ->group(base_path('routes/dashboard.php'));
     }
