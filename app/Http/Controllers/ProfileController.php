@@ -3,15 +3,16 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+
 use App\Models\Profile;
-use App\Repository\Contracts\CrudRepositoryInterface;
+use App\Repository\Contracts\ProfileRepositoryInterface;
 
 class ProfileController extends Controller
 {
-    protected Request $request;
-    protected CrudRepositoryInterface $repository;
+    protected $request;
+    protected $repository;
 
-    public function __construct(Request $request, CrudRepositoryInterface $repository)
+    public function __construct(Request $request, ProfileRepositoryInterface $repository)
     {
         $this->request = $request;
         $this->repository = $repository;

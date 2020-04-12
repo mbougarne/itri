@@ -3,16 +3,17 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\User;
-use App\Repository\Contracts\CrudRepositoryInterface;
 use Illuminate\Support\Facades\{Hash, Auth};
+
+use App\Models\User;
+use App\Repository\Contracts\UserRepositoryInterface;
 
 class UserController extends Controller
 {
-    protected Request $request;
-    protected CrudRepositoryInterface $repository;
+    protected $request;
+    protected $repository;
 
-    public function __construct(Request $request, CrudRepositoryInterface $repository)
+    public function __construct(Request $request, UserRepositoryInterface $repository)
     {
         $this->request = $request;
         $this->repository = $repository;
