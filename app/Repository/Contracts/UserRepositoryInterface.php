@@ -1,21 +1,17 @@
 <?php
 
-namespace App\Repository;
+namespace App\Repository\Contracts;
 
 use App\Models\User;
-use App\Repository\Contracts\UserRepositoryInterface;
 
-class UserRepository implements UserRepositoryInterface
+interface UserRepositoryInterface
 {
     /**
      * Get user
      *
      * @return \Illuminate\Database\Eloquent\Model|null
      */
-    public function single()
-    {
-        return User::first();
-    }
+    public function single();
 
     /**
      * Create new user
@@ -23,10 +19,7 @@ class UserRepository implements UserRepositoryInterface
      * @param array $data
      * @return \Illuminate\Database\Eloquent\Model|Boolean
      */
-    public function save(array $data)
-    {
-        return User::create($data);
-    }
+    public function save(array $data);
 
     /**
      * Update an existing user
@@ -35,10 +28,7 @@ class UserRepository implements UserRepositoryInterface
      * @param array $data user data
      * @return \Illuminate\Database\Eloquent\Model|Boolean
      */
-    public function update(User $user, array $data)
-    {
-        return $user->update($data);
-    }
+    public function update(User $user, array $data);
 
     /**
      * Delete a user
@@ -46,8 +36,5 @@ class UserRepository implements UserRepositoryInterface
      * @param \App\Models\User $user
      * @return \Illuminate\Database\Eloquent\Model|Boolean
      */
-    public function delete(User $user)
-    {
-        return $user->delete();
-    }
+    public function delete(User $user);
 }

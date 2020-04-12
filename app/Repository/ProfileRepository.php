@@ -3,42 +3,40 @@
 namespace App\Repository;
 
 use App\Models\Profile;
-use App\Repository\Contracts\CrudRepositoryInterface;
+use App\Repository\Contracts\ProfileRepositoryInterface;
 
-class ProfileRepository implements CrudRepositoryInterface
+class ProfileRepository implements ProfileRepositoryInterface
 {
-    public function getAll() : object
-    {
-        return Profile::all();
-    }
-
-    public function paginate(int $limit = 15) : object
-    {
-        return Profile::paginate($limit);
-    }
-
-    public function getItem() : object
+    /**
+     * Get profile
+     *
+     * @return \Illuminate\Database\Eloquent\Model|null
+     */
+    public function single()
     {
         return Profile::first();
     }
 
-    public function getItemByKey(string $key, $value) : object
-    {
-        return Profile::where($key, $value)->first();
-    }
-
+    /**
+     * Create new profile
+     *
+     * @param array $data
+     * @return \Illuminate\Database\Eloquent\Model|Boolean
+     */
     public function save(array $data)
     {
         return Profile::create($data);
     }
 
-    public function update($user, array $data)
+    /**
+     * Update an existing profile
+     *
+     * @param \App\Models\Profile $profile
+     * @param array $data profile data
+     * @return \Illuminate\Database\Eloquent\Model|Boolean
+     */
+    public function update(Profile $profile, array $data)
     {
-        return $user->update($data);
-    }
-
-    public function delete($user)
-    {
-        return $user->delete();
+        return $profile->update($data);
     }
 }
