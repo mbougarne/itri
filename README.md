@@ -8,7 +8,7 @@ A light CMS built with Laravel and Stisla dashboard, it isn't ready yet!
 I would like to give my thanks to:
 
 - [Laravel](https://github.com/laravel/laravel)
-- [Fragrantica](https://github.com/stisla/stisla)
+- [Nauval](https://github.com/stisla/stisla)
 
 ## License
 

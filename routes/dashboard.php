@@ -12,6 +12,10 @@
 
 Route::group(['prefix' => 'dashboard'], function () {
 
+    # Dashboard home page and thanks page
+    Route::get('/', 'DashboardController@index')->name('dashboard');
+    Route::get('/credits', 'DashboardController@credits')->name('credits');
+
     # Profile
     Route::group(['prefix' => 'profile'], function () {
         Route::get('/create', 'ProfileController@show')->name('profile.create');
@@ -119,9 +123,5 @@ Route::group(['prefix' => 'dashboard'], function () {
             Route::post('/update', 'SettingController@updateScripts')->name('settings.scripts.update');
         });
     });
-
-    # Dashboard home page and thanks page
-    Route::get('/', 'DashboardController@index')->name('dashboard');
-    Route::get('/credits', 'DashboardController@credits')->name('credits');
 });
 
