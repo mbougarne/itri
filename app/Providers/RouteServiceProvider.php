@@ -46,7 +46,8 @@ class RouteServiceProvider extends ServiceProvider
 
         $this->mapWebRoutes();
 
-        //
+        // custom files
+        $this->mapAdminRoutes();
     }
 
     /**
@@ -61,6 +62,19 @@ class RouteServiceProvider extends ServiceProvider
         Route::middleware('web')
             ->namespace($this->namespace)
             ->group(base_path('routes/web.php'));
+    }
+
+    /**
+     * Define the dashboard routes for the app admin
+     *
+     * @return void
+     */
+    protected function mapAdminRoutes()
+    {
+        Route::prefix('dashboard')
+            ->middleware('web')
+            ->namespace($this->namespace)
+            ->group(base_path('routes/dashboard.php'));
     }
 
     /**
