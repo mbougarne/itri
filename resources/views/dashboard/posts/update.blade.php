@@ -1,5 +1,9 @@
+@php
+    $catsIds = $post->categories()->allRelatedIds()->toArray();
+    $tagsNames = $post->tags()->pluck('name')->toArray();
+    $tagsNames = trim(implode(', ', $tagsNames));
+@endphp
 @extends('dashboard.layouts.master')
-
 {{-- Custom Styles --}}
 @section('styles')
 <link rel="stylesheet" href="{{ asset('default/css/summernote-bs4.css') }}">
@@ -36,9 +40,15 @@
                                     type="text"
                                     id="title"
                                     name="title"
-                                    value="{{ old('title'), '' }}"
-                                    class="form-control"
-                                    placeholder="{{ __("What's new in Laravel 7") }}">
+                                    value="{{ old('title', $post->title) }}"
+                                    class="form-control @error('title') is-invalid @enderror"
+                                    placeholder="{{ __("What's new in Laravel 7") }}"
+                                    required>
+                                @error('title')
+                                <span class="invalid-feedback" role="alert">
+                                    <strong>{{ $message }}</strong>
+                                </span>
+                                @enderror
                             </div>
                         </div>
                         {{-- Categories --}}
@@ -58,7 +68,8 @@
                                                 type="checkbox"
                                                 name="categories[]"
                                                 value="{{ old('categories', $category->id) }}"
-                                                class="selectgroup-input">
+                                                class="selectgroup-input"
+                                                {{ (in_array($category->id, $catsIds)) ? 'checked' : '' }}>
                                             <span class="selectgroup-button">
                                                 {{ $category->name }}
                                             </span>
@@ -85,7 +96,7 @@
                                     id="description"
                                     name="description"
                                     class="form-control"
-                                    value="{{ old('description') }}">
+                                    value="{{ old('description', $post->description) }}">
                                 {{-- Alert --}}
                                 <div class="alert alert-dark alert-has-icon p-2">
                                     <div class="alert-icon"><i class="far fa-lightbulb"></i></div>
@@ -104,8 +115,14 @@
                                 <textarea
                                     id="body"
                                     name="body"
-                                    class="summernote"
-                                >{{ old('body') }}</textarea>
+                                    class="summernote @error('body') is-invalid @enderror"
+                                    required
+                                >{{ old('body', $post->body) }}</textarea>
+                                @error('body')
+                                <span class="invalid-feedback" role="alert">
+                                    {{ $message }}
+                                </span>
+                                @enderror
                             </div>
                         </div>
                         {{-- Thumbnail --}}
@@ -114,6 +131,17 @@
                                 {{ __("Thumbnail") }}
                             </label>
                             <div class="col-sm-12 col-md-7">
+                                {{-- Old one --}}
+                                <div class="mb-1">
+                                    <p>
+                                        <strong>{{ __("The current thumbnail:") }}</strong>
+                                    </p>
+                                    <img
+                                        src="{{ asset($post->thumbnail) }}"
+                                        class="img-fluid"
+                                        width="245">
+                                </div>
+                                {{-- Upload New One --}}
                                 <div id="image-preview" class="image-preview">
                                     <label for="image-upload" id="image-label">Choose File</label>
                                     <input type="file" name="thumbnail" id="image-upload">
@@ -130,7 +158,7 @@
                                     type="text"
                                     id="tags"
                                     name="tags"
-                                    value="{{ old('tags'), '' }}"
+                                    value="{{ old('tags', $tagsNames) }}"
                                     class="form-control inputtags">
                                 <div class="alert alert-dark alert-has-icon p-2">
                                     <div class="alert-icon"><i class="fas fa-ban"></i></div>
@@ -147,8 +175,13 @@
                             </label>
                             <div class="col-sm-12 col-md-7">
                             <select class="form-control selectric" name="is_published" is="isPublished">
-                                <option value="1">{{ __('Publish') }}</option>
-                                <option value="0">{{ __('Pending') }}</option>
+                                <option value="1" {{ ($post->is_published == 'Published') ? 'selected' : ''}}>
+                                    {{ __('Publish') }}
+                                </option>
+                                {{-- Draft --}}
+                                <option value="0" {{ ($post->is_published == 'Draft') ? 'selected' : ''}}>
+                                    {{ __('Draft') }}
+                                </option>
                             </select>
                             </div>
                         </div>
@@ -158,7 +191,7 @@
                             <div class="col-sm-12 col-md-7">
                                 @csrf
                                 <button class="btn btn-primary" type="submit">
-                                    {{ __('Create Post') }}
+                                    {{ __('Update Post') }}
                                 </button>
                             </div>
                         </div>
