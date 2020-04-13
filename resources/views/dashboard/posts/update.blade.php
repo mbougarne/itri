@@ -12,7 +12,7 @@
     <x-content-header :title="$title" :description="$description" />
     {{-- Create --}}
     <form
-        action="{{ route('post.update', $post->slug) }}"
+        action="{{ route('posts.update', $post->slug) }}"
         method="POST"
         enctype="multipart/form-data">
         {{-- Fields --}}

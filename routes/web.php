@@ -23,24 +23,24 @@ Route::group(['middleware' => ['guest']], function () {
 
     # Posts
     Route::group(['prefix' => 'posts'], function() {
-        Route::get('/{post:slug}', 'PostController@show')->name('post.show');
+        Route::get('/{post:slug}', 'PostController@show')->name('posts.show');
     });
 
     # Pages
-    Route::get('/{page:slug}', 'PageController@show')->name('page.show');
+    Route::get('/{page:slug}', 'PageController@show')->name('pages.show');
 
     # Category
     Route::group(['prefix' => 'categories'], function() {
-        Route::get('/{category:slug}', 'CategoryController@show')->name('category.show');
+        Route::get('/{category:slug}', 'CategoryController@show')->name('categories.show');
     });
 
     # Tag
     Route::group(['prefix' => 'tags'], function() {
-        Route::get('/{tag:slug}', 'TagController@show')->name('tag.show');
+        Route::get('/{tag:slug}', 'TagController@show')->name('tags.show');
     });
 
     # Comment
-    Route::post('/comments/create', 'CommentController@store')->name('comment.create');
+    Route::post('/comments/create', 'CommentController@store')->name('comments.create');
 });
 
 

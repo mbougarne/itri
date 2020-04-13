@@ -46,7 +46,7 @@
                     <li>
                         <a
                             class="nav-link"
-                            href="{{ route('post.create') }}">
+                            href="{{ route('posts.create') }}">
                             {{ __("Create Post") }}
                         </a>
                     </li>
