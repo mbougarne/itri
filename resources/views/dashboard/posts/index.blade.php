@@ -8,5 +8,5 @@
         :links="$links"
     />
     {{-- Posts --}}
-    <x-dashboard.posts :posts="$posts" />
+    <x-posts :posts="$posts" />
 @endsection

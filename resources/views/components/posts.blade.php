@@ -36,11 +36,11 @@
                                             src="{{ asset($post->thumbnail) }}">
                                         {{ $post->title }}
                                         <div class="table-links">
-                                            <a href="{{ route('post.show', $post->slug) }}">
+                                            <a href="{{ route('posts.show', $post->slug) }}">
                                                 {{ __("View") }}
                                             </a>
                                             <div class="bullet"></div>
-                                            <a href="{{ route('post.update', $post->slug) }}">
+                                            <a href="{{ route('posts.update', $post->slug) }}">
                                                 {{ __("Edit") }}
                                             </a>
                                         </div>
@@ -48,7 +48,7 @@
                                     {{-- Categories --}}
                                     <td>
                                         @forelse($post->categories as $category)
-                                            <a href="{{ route('category.show', $category->slug) }}">
+                                            <a href="{{ route('categories.show', $category->slug) }}">
                                                 {{ $category->name }}
                                             </a>
                                         @empty
@@ -58,7 +58,7 @@
                                     {{-- Tags --}}
                                     <td>
                                         @forelse($post->tags as $tag)
-                                            <a href="{{ route('tag.show', $tag->slug) }}">
+                                            <a href="{{ route('tags.show', $tag->slug) }}">
                                                 {{ $tag->name }}
                                             </a>
                                         @empty
@@ -80,7 +80,7 @@
                                 <tr>
                                     <td colspan="5">
                                         {{ __("No post has created yet!") }}
-                                        <a href="{{ route('post.create') }}" class="btn btn-primary btn-sm btn-round">
+                                        <a href="{{ route('posts.create') }}" class="btn btn-primary btn-sm btn-round">
                                             {{ __("Create New One") }}
                                         </a>
                                     </td>
