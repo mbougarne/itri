@@ -90,7 +90,7 @@
                     <li>
                         <a
                             class="nav-link"
-                            href="{{ route('page.create') }}">
+                            href="{{ route('pages.create') }}">
                             {{ __("Create Page") }}
                         </a>
                     </li>
@@ -126,7 +126,7 @@
                     <li>
                         <a
                             class="nav-link"
-                            href="{{ route('contact.create') }}">
+                            href="{{ route('contacts.create') }}">
                             {{ __("Create Contact") }}
                         </a>
                     </li>
@@ -142,7 +142,7 @@
                     <li>
                         <a
                             class="nav-link"
-                            href="{{ route('form.create') }}">
+                            href="{{ route('forms.create') }}">
                             {{ __("Create Form") }}
                         </a>
                     </li>
@@ -174,7 +174,7 @@
             <a
                 href="{{ route('credits') }}"
                 class="btn btn-danger btn-lg btn-block btn-icon-split">
-                Thanks ❤
+                {{ __("Thanks") }} ❤
             </a>
         </div>
     </aside>
