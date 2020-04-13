@@ -3,10 +3,12 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-
 use Illuminate\Support\Str;
+
 use App\Repository\Contracts\PostRepositoryInterface;
 use App\Repository\Contracts\CategoryRepositoryInterface;
+
+use App\Models\Post;
 
 class PostController extends Controller
 {
@@ -135,27 +137,28 @@ class PostController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \App\Models\Post  $post
+     * @param string $slug
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, Post $post)
     {
-        $request->validate([
-            'title' => 'required',
+        $data = $request->validate([
+            'title' => 'required|unique:posts,title,' . $post->id,
             'body' => 'required',
+            'description' => 'sometimes|nullable|max:160',
+            'thumbnail' => 'sometimes|nullable|file|image|max:5000',
+            'categories' => 'sometimes|nullable',
+            'tags' => 'sometimes|nullable',
+            'is_published' => 'sometimes',
         ]);
 
-        $data = [
-            'title' => $request->title,
-            'body' => $request->body,
-            'slug' => $request->title,
-        ];
+        if($request->hasFile('thumbnail'))
+        {
+            $ext = $request->file('thumbnail')->extension();
+            $thumbnail = Str::slug($request->file('thumbnail')) . '-' . time() . '.' . $ext;
+            $data = array_merge($data, ['thumbnail' => $thumbnail]);
 
-        if($request->hasFile('thumbnail')) {
-            $data = array_merge(
-                $data,
-                [ 'thumbnail' => $this->storeThumbnail($request) ]
-            );
+            $request->file('thumbnail')->storeAs('thumbnails/', $thumbnail, 'uploads');
         }
 
         $updatedPost = $this->repository->update($post, $data);
@@ -166,7 +169,6 @@ class PostController extends Controller
         }
 
         return redirect()->back()->withErrors(['errors' => 'There is an issue. Please try again!']);
-
     }
 
     /**

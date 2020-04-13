@@ -85,11 +85,22 @@ class PostRepository implements PostRepositoryInterface
      */
     public function update(Post $post, array $data)
     {
+        $get_tags_from_data = $data['tags'] ?? null;
+        $get_cats_from_data = $data['categories'] ?? null;
+
+        unset($data['tags'], $data['categories']);
+
         $updatedPost = $post->update($data);
 
-        if(in_array('categories', $data)) $post->categories->sync($data['categories']);
+        if($get_tags_from_data) {
 
-        if(in_array('tags', $data)) $post->tags->sync($data['tags']);
+            $tags = explode(',', $get_tags_from_data);
+            $tags_ids = $this->storeTags($tags);
+            $post->tags()->sync($tags_ids);
+
+        }
+
+        if($get_cats_from_data) $post->categories()->sync($get_cats_from_data);
 
         return $updatedPost;
     }

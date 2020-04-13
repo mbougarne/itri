@@ -45,9 +45,9 @@
                                     placeholder="{{ __("What's new in Laravel 7") }}"
                                     required>
                                 @error('title')
-                                <span class="invalid-feedback" role="alert">
-                                    <strong>{{ $message }}</strong>
-                                </span>
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ print_r($message) }}</strong>
+                                    </span>
                                 @enderror
                             </div>
                         </div>
@@ -119,9 +119,9 @@
                                     required
                                 >{{ old('body', $post->body) }}</textarea>
                                 @error('body')
-                                <span class="invalid-feedback" role="alert">
-                                    {{ $message }}
-                                </span>
+                                    <span class="invalid-feedback" role="alert">
+                                        {{ $message }}@error('body') is-invalid @enderror
+                                    </span>
                                 @enderror
                             </div>
                         </div>
