@@ -36,7 +36,7 @@
                             </div>
                             <div class="media-links">
                                 <div class="bullet"></div>
-                                <a href="{{ route('comment.update', $comment->id) }}">
+                                <a href="{{ route('comments.update', $comment->id) }}">
                                     {{ __("Edit") }}
                                 </a>
                             </div>

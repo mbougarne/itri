@@ -54,7 +54,7 @@
                                     data-toggle="tooltip"
                                     title="{{ __("Edit") }}"
                                     data-original-title="{{ __("Edit") }}"
-                                    href="{{ route("post.update", $post->slug) }}">
+                                    href="{{ route("posts.update", $post->slug) }}">
                                     <i class="fas fa-pencil-alt"></i>
                                 </a>
                             </td>
@@ -64,7 +64,7 @@
                                 <td colspan="2">
                                     <p class="text-muted">
                                         {{ __("No post has created yet!") }}
-                                        <a href="{{ route('post.create') }}" class="btn btn-primary btn-sm btn-round">
+                                        <a href="{{ route('posts.create') }}" class="btn btn-primary btn-sm btn-round">
                                             {{ __("Create New One") }}
                                         </a>
                                     </p>
