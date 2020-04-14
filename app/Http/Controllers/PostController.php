@@ -85,11 +85,8 @@ class PostController extends Controller
 
         if($request->hasFile('thumbnail'))
         {
-            $ext = $request->file('thumbnail')->extension();
-            $thumbnail = Str::slug($request->file('thumbnail')) . '-' . time() . '.' . $ext;
+            $thumbnail = $this->storeThumbnail($request, 'thumbnail');
             $data = array_merge($data, ['thumbnail' => $thumbnail]);
-
-            $request->file('thumbnail')->storeAs('thumbnails/', $thumbnail, 'uploads');
         }
 
         $createdPost = $this->repository->save( $data );
@@ -116,12 +113,11 @@ class PostController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  string $slug
+     * @param  \App\Models\Post $post
      * @return \Illuminate\Http\Response
      */
-    public function edit(string $slug)
+    public function edit(Post $post)
     {
-        $post = $this->repository->single($slug);
         $title = "Update Post";
         $description = "{$post->title}";
         $categories = $this->categoryRepository->all();
@@ -155,7 +151,7 @@ class PostController extends Controller
         // Save post thumbnail
         if($request->hasFile('thumbnail'))
         {
-            $thumbnail = $this->storeThumbnail($request);
+            $thumbnail = $this->storeThumbnail($request, 'thumbnail');
             $data = array_merge($data, ['thumbnail' => $thumbnail]);
         }
         // Save Post
@@ -204,9 +200,7 @@ class PostController extends Controller
     {
         if($request->hasFile('upload_image'))
         {
-            $ext = $request->file('upload_image')->extension();
-            $image = Str::random() . '-' . time() . '.' . $ext;
-            $request->file('upload_image')->storeAs('thumbnails/', $image, 'uploads');
+            $image = $this->storeThumbnail($request, 'upload_image');
             return response()->json([
                 'success' => true,
                 'msg' => 'Image has been saved',
@@ -224,12 +218,13 @@ class PostController extends Controller
      * @param \Illuminate\Http\Request $request
      * @return string $thumbnail stored thumbnail name
      */
-    protected function storeThumbnail(Request $request) : string
+    protected function storeThumbnail(Request $request, string $file_name) : string
     {
-        $extension = $request->file('thumbnail')->extension();
-        $thumbnail = Str::slug($request->input('title')) . '-' . time() . '.' . $extension;
+        $extension = $request->file($file_name)->extension();
+        $random_chars = ($request->title) ? Str::slug($request->title) : Str::random();
+        $thumbnail = $random_chars . '-' . time() . '.' . $extension;
 
-        $request->file('thumbnail')->storeAs('thumbnails/', $thumbnail, 'uploads');
+        $request->file($file_name)->storeAs('thumbnails/', $thumbnail, 'uploads');
 
         return $thumbnail;
     }
