@@ -38,6 +38,8 @@
         {{-- Confirmation Alert --}}
         <script>
             $(document).ready( function($) {
+                // Remove Disabled Attribute
+                $(".deleteItem").children('button').removeAttr('disabled');
                 // Confirmation Alert
                 $(".deleteItem").submit(function(e) {
                     e.preventDefault();

@@ -30,7 +30,7 @@
                             class="ml-auto deleteItem">
                             {{-- Delete --}}
                             @csrf
-                            <button type="submit" class="btn btn-icon icon-left btn-danger">
+                            <button type="submit" class="btn btn-icon icon-left btn-danger" disabled>
                                 <i class="fas fa-times"></i>
                                 DELETE
                             </button>
