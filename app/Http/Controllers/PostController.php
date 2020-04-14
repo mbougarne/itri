@@ -12,13 +12,40 @@ use App\Models\Post;
 
 class PostController extends Controller
 {
+    /**
+     * Post Repository Interface
+     *
+     * @var \App\Repository\Contracts\PostRepositoryInterface
+     */
     protected $repository;
+
+    /**
+     * Category Repository Interface
+     *
+     * @var \App\Repository\Contracts\CategoryRepositoryInterface
+     */
     protected $categoryRepository;
 
+    /**
+     * Request
+     *
+     * @var \Illuminate\Http\Request
+     */
+    protected $request;
+
+    /**
+     * DI request, post and category repositories
+     *
+     * @param \Illuminate\Http\Request $request
+     * @param \App\Repository\Contracts\PostRepositoryInterface $repository
+     * @param \App\Repository\Contracts\CategoryRepositoryInterface $categoryRepository
+     */
     public function __construct(
+        Request $request,
         PostRepositoryInterface $repository,
         CategoryRepositoryInterface $categoryRepository)
     {
+        $this->request = $request;
         $this->repository = $repository;
         $this->categoryRepository = $categoryRepository;
     }
@@ -68,35 +95,16 @@ class PostController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store()
     {
-
-        $data = $request->validate([
-            'title' => 'required|unique:posts',
-            'body' => 'required',
-            'description' => 'sometimes|nullable|max:160',
-            'thumbnail' => 'sometimes|nullable|file|image|max:5000',
-            'categories' => 'sometimes|nullable',
-            'tags' => 'sometimes|nullable',
-        ]);
-
-        if($request->hasFile('thumbnail'))
-        {
-            $thumbnail = $this->storeThumbnail($request, 'thumbnail');
-            $data = array_merge($data, ['thumbnail' => $thumbnail]);
-        }
-
+        // get data from request
+        $data = $this->validateRequest();
+        // Save Post
         $createdPost = $this->repository->save( $data );
-
-        if($createdPost)
-        {
-            return redirect()->route('posts')->with('success', 'The post has created successfully!');
-        }
-
-        return redirect()->back()->withErrors(['errors' => 'There is an issue. Please try again!']);
+        // redirect incoming request
+        return $this->sendResponse($createdPost, 'created');
     }
 
     /**
@@ -133,40 +141,17 @@ class PostController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param string $slug
+     * @param \App\Models\Post $post
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Post $post)
+    public function update(Post $post)
     {
-        // Validate Request and store data
-        $data = $request->validate([
-            'title' => 'required|unique:posts,title,' . $post->id,
-            'body' => 'required',
-            'description' => 'sometimes|nullable|max:160',
-            'thumbnail' => 'sometimes|nullable|file|image|max:5000',
-            'categories' => 'sometimes|nullable',
-            'tags' => 'sometimes|nullable',
-            'is_published' => 'sometimes',
-        ]);
-        // Save post thumbnail
-        if($request->hasFile('thumbnail'))
-        {
-            $thumbnail = $this->storeThumbnail($request, 'thumbnail');
-            $data = array_merge($data, ['thumbnail' => $thumbnail]);
-        }
+        // get data from request
+        $data = $this->validateRequest($post->id);
         // Save Post
         $updatedPost = $this->repository->update($post, $data);
-        // Success redirect
-        if($updatedPost)
-        {
-            return redirect()
-                    ->route('posts')
-                    ->with('success', 'The post has updated successfully!');
-        }
-        // Error redirect
-        return redirect()
-                ->back()
-                ->withErrors(['errors' => 'There is an issue. Please try again!']);
+        // redirect incoming request
+        return $this->sendResponse($updatedPost, 'updated');
     }
 
     /**
@@ -177,17 +162,10 @@ class PostController extends Controller
      */
     public function destroy(Post $post)
     {
-        // Success redirect
-        if($this->repository->delete($post))
-        {
-            return redirect()
-                    ->route('posts')
-                    ->with('success', 'The post has deleted successfully!');
-        }
-        // Error redirect
-        return redirect()
-                ->back()
-                ->withErrors(['errors' => 'There is an issue. Please try again!']);
+        // Delete post
+        $deletedPost = $this->repository->delete($post);
+        // redirect incoming request
+        return $this->sendResponse($deletedPost, 'deleted');
     }
 
     /**
@@ -227,5 +205,57 @@ class PostController extends Controller
         $request->file($file_name)->storeAs('thumbnails/', $thumbnail, 'uploads');
 
         return $thumbnail;
+    }
+
+    /**
+     * Validate incoming request and return its data
+     *
+     * @param int $post_id
+     * @return array
+     */
+    protected function validateRequest(int $post_id = null) : array
+    {
+        // Validation rules: If the post_id isn't null which mean we're in update case check unique on it's title
+        $rules = [
+            'title' => ($post_id) ? 'required|unique:posts,title,' . $post_id : 'required|unique:posts',
+            'body' => 'required',
+            'description' => 'sometimes|nullable|max:160',
+            'thumbnail' => 'sometimes|nullable|file|image|max:5000',
+            'categories' => 'sometimes|nullable',
+            'tags' => 'sometimes|nullable',
+            'is_published' => 'sometimes',
+        ];
+        // Assaign validated data
+        $data = $this->request->validate($rules);
+        // Save post thumbnail
+        if($this->request->hasFile('thumbnail'))
+        {
+            $thumbnail = $this->storeThumbnail($this->request, 'thumbnail');
+            $data = array_merge($data, ['thumbnail' => $thumbnail]);
+        }
+        // return the request data after validation in array format
+        return $data;
+    }
+
+    /**
+     * Redirect to corresponding web route
+     *
+     * @param mixed $post
+     * @param string $action process action type: Delete|Update|Create
+     * @return \Illuminate\Http\Response
+     */
+    protected function sendResponse($post, string $action)
+    {
+        // Success redirect
+        if($post)
+        {
+            return redirect()
+                    ->route('posts')
+                    ->with('success', "The post has $action successfully!");
+        }
+        // Error redirect
+        return redirect()
+                ->back()
+                ->withErrors(['errors' => 'There is an issue. Please try again!']);
     }
 }
