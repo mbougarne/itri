@@ -268,30 +268,6 @@
                 }
             }
         });
-        // Confirmation Alert
-        $(".deleteItem").submit(function(e) {
-            e.preventDefault();
-            swal({
-                title: "{{ __('Are you sure?') }}",
-                text: "{{ __('Once deleted, you will not be able to recover this post!') }}",
-                icon: 'error',
-                buttons: true,
-                dangerMode: true,
-            })
-            .then( willDelete => {
-                if (willDelete) {
-
-                    swal( "{{ __('Your post has been deleted!') }}",
-                        {
-                            icon: 'success',
-                        });
-                    e.target.submit();
-
-                } else {
-                    swal('Your imaginary file is safe!');
-                }
-            });
-        });
     })
 </script>
 @endsection

@@ -2,9 +2,6 @@
                     <div class="footer-left">
                         Copyright &copy; 2018 <div class="bullet"></div> Design By <a href="https://nauval.in/">Muhamad Nauval Azhar</a>
                     </div>
-                    <div class="footer-right">
-                        2.3.0
-                    </div>
                 </footer>
             </div>
         </div>
@@ -38,6 +35,35 @@
         @endif
 
         @yield('scripts')
+        {{-- Confirmation Alert --}}
+        <script>
+            $(document).ready( function($) {
+                // Confirmation Alert
+                $(".deleteItem").submit(function(e) {
+                    e.preventDefault();
+                    swal({
+                        title: "{{ __('Are you sure?') }}",
+                        text: "{{ __('Once deleted, you will not be able to recover it!') }}",
+                        icon: 'error',
+                        buttons: true,
+                        dangerMode: true,
+                    })
+                    .then( willDelete => {
+                        if (willDelete) {
+
+                            swal( "{{ __('It has been deleted!') }}",
+                                {
+                                    icon: 'success',
+                                });
+                            e.target.submit();
+
+                        } else {
+                            swal('You canceled process!');
+                        }
+                    });
+                });
+            })
+        </script>
         <!-- Template JS File -->
         <script src="{{ asset('default/stisla/scripts.js') }}"></script>
         {!! $settings->footer_scripts ?? '' !!}
