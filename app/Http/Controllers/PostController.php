@@ -142,6 +142,7 @@ class PostController extends Controller
      */
     public function update(Request $request, Post $post)
     {
+        // Validate Request and store data
         $data = $request->validate([
             'title' => 'required|unique:posts,title,' . $post->id,
             'body' => 'required',
@@ -151,24 +152,25 @@ class PostController extends Controller
             'tags' => 'sometimes|nullable',
             'is_published' => 'sometimes',
         ]);
-
+        // Save post thumbnail
         if($request->hasFile('thumbnail'))
         {
-            $ext = $request->file('thumbnail')->extension();
-            $thumbnail = Str::slug($request->file('thumbnail')) . '-' . time() . '.' . $ext;
+            $thumbnail = $this->storeThumbnail($request);
             $data = array_merge($data, ['thumbnail' => $thumbnail]);
-
-            $request->file('thumbnail')->storeAs('thumbnails/', $thumbnail, 'uploads');
         }
-
+        // Save Post
         $updatedPost = $this->repository->update($post, $data);
-
+        // Success redirect
         if($updatedPost)
         {
-            return redirect()->route('posts')->with('success', 'The post has updated successfully!');
+            return redirect()
+                    ->route('posts')
+                    ->with('success', 'The post has updated successfully!');
         }
-
-        return redirect()->back()->withErrors(['errors' => 'There is an issue. Please try again!']);
+        // Error redirect
+        return redirect()
+                ->back()
+                ->withErrors(['errors' => 'There is an issue. Please try again!']);
     }
 
     /**
@@ -179,13 +181,25 @@ class PostController extends Controller
      */
     public function destroy(Post $post)
     {
-        $deleted = $this->repository->delete($post);
-
-        if($deleted) {
-            return response('post deleted', 200);
+        // Success redirect
+        if($this->repository->delete($post))
+        {
+            return redirect()
+                    ->route('posts')
+                    ->with('success', 'The post has deleted successfully!');
         }
+        // Error redirect
+        return redirect()
+                ->back()
+                ->withErrors(['errors' => 'There is an issue. Please try again!']);
     }
 
+    /**
+     * Upload summer note image
+     *
+     * @param \Illuminate\Http\Request $request
+     * @return void
+     */
     public function upload(Request $request)
     {
         if($request->hasFile('upload_image'))
@@ -204,7 +218,12 @@ class PostController extends Controller
         return response()->json(['error' => 'There is an issue']);
     }
 
-
+    /**
+     * Store images functionality
+     *
+     * @param \Illuminate\Http\Request $request
+     * @return string $thumbnail stored thumbnail name
+     */
     protected function storeThumbnail(Request $request) : string
     {
         $extension = $request->file('thumbnail')->extension();
