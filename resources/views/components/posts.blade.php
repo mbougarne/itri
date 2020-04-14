@@ -29,20 +29,28 @@
                                     </td>
                                     {{-- title --}}
                                     <td>
-                                        <img
-                                            alt="image"
-                                            class="mr-3"
-                                            width="55"
-                                            src="{{ asset($post->thumbnail) }}">
-                                        {{ $post->title }}
-                                        <div class="table-links">
-                                            <a href="{{ route('posts.show', $post->slug) }}">
-                                                {{ __("View") }}
-                                            </a>
-                                            <div class="bullet"></div>
-                                            <a href="{{ route('posts.update', $post->slug) }}">
-                                                {{ __("Edit") }}
-                                            </a>
+                                        <div>
+                                            {{-- Thumbnail --}}
+                                            <div class="float-left">
+                                                <img
+                                                    alt="image"
+                                                    class="mr-3"
+                                                    width="55"
+                                                    src="{{ asset($post->thumbnail) }}">
+                                            </div>
+                                            {{-- Content --}}
+                                            <div>
+                                                {{ $post->title }}
+                                                <div class="table-links">
+                                                    <a href="{{ route('posts.show', $post->slug) }}">
+                                                        {{ __("View") }}
+                                                    </a>
+                                                    <div class="bullet"></div>
+                                                    <a href="{{ route('posts.update', $post->slug) }}">
+                                                        {{ __("Edit") }}
+                                                    </a>
+                                                </div>
+                                            </div>
                                         </div>
                                     </td>
                                     {{-- Categories --}}
