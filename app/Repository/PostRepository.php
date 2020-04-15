@@ -26,6 +26,44 @@ class PostRepository implements PostRepositoryInterface
     }
 
     /**
+     * Get latest posts based on their published status
+     *
+     * @param int $status
+     * @param int $limit number of posts by default 5
+     * @return \Illuminate\Database\Eloquent\Collection|static[]
+     */
+    public function getLatest(int $status, int $limit = 5)
+    {
+        return Post::published($status)->latest()->limit($limit)->get();
+    }
+
+    /**
+     * Get all posts using custom queries
+     * We have by default all posts sorted by created_at in descending way
+     * For that we use this method in contrary to what we have by default
+     *
+     * @param integer $status published by default
+     * @param string $order_by updated_at by default
+     * @param string $order in ASC  by default
+     * @return \Illuminate\Database\Eloquent\Collection|static[]
+     */
+    public function allWhere(int $status = 1, string $order_by = 'updated_at', string $order = 'ASC')
+    {
+        return Post::published($status)->order_by($order_by, $order)->get();
+    }
+
+    /**
+     * Get all posts where is_published is 1 by default
+     *
+     * @param integer $status
+     * @return \Illuminate\Database\Eloquent\Collection|static[]
+     */
+    public function allByStatus(int $status = 1)
+    {
+        return Post::published($status)->get();
+    }
+
+    /**
      * Get chunck of posts
      *
      * @param integer $limit number of posts

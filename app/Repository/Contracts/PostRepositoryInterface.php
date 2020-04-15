@@ -17,10 +17,10 @@ interface PostRepositoryInterface
      * Get latest posts based on their published status
      *
      * @param int $status
-     * @param int $limit number of posts by default 10
+     * @param int $limit number of posts by default 5
      * @return \Illuminate\Database\Eloquent\Collection|static[]
      */
-    public function getLatest(int $status, int $limit = 10);
+    public function getLatest(int $status, int $limit = 5);
 
     /**
      * Get all posts using custom queries
