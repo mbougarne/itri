@@ -49,7 +49,7 @@ class PostRepository implements PostRepositoryInterface
      */
     public function allWhere(int $status = 1, string $order_by = 'updated_at', string $order = 'ASC')
     {
-        return Post::published($status)->order_by($order_by, $order)->get();
+        return Post::published($status)->orderBy($order_by, $order)->get();
     }
 
     /**

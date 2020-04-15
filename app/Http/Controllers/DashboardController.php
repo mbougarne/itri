@@ -2,13 +2,27 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
+use App\Repository\Contracts\PostRepositoryInterface as PostRepository;
 
-class DashboardController extends Controller
+class DashboardController
 {
+
+    protected $repository;
+
+    public function __construct(PostRepository $repository)
+    {
+        $this->repository = $repository;
+    }
+
     public function index()
     {
-        return view('dashboard.template', ['title' => 'dashboard', 'posts' => []]);
+        return view(
+            'dashboard.template',
+            [
+                'title' => 'dashboard',
+                'posts' => $this->repository->getLatest(1)
+            ]
+        );
     }
 
     public function credits()

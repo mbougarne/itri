@@ -3,10 +3,16 @@
 namespace App\View\Components\dashboard;
 
 use Illuminate\View\Component;
-use App\Models\Post;
 
 class LatestPosts extends Component
 {
+    public $posts;
+
+    public function __construct($posts)
+    {
+        $this->posts = $posts;
+    }
+
     /**
      * Get the view / contents that represent the component.
      *
@@ -15,25 +21,5 @@ class LatestPosts extends Component
     public function render()
     {
         return view('components.dashboard.latest-posts');
-    }
-
-    /**
-     * Return latest posts
-     *
-     * @return self::getLatestPosts
-     */
-    public function posts()
-    {
-        return $this->getLatestPosts();
-    }
-
-    /**
-     * Get latest posts
-     *
-     * @return \App\Models\Post
-     */
-    protected function getLatestPosts() : object
-    {
-        return Post::published()->orderBy("created_at", "desc")->limit(5)->get();
     }
 }
