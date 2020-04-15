@@ -38,6 +38,13 @@
                                 </a>
                             </li>
                         @endforelse
+                        {{-- Create Button --}}
+                        <li class="nav-item ml-auto">
+                            <a class="btn btn-success" href="{{ route(request()->segment(2) . '.create') }}">
+                                <i class="fas fa-edit"></i>
+                                {{ __("Create New " . Str::singular(request()->segment(2))) }}
+                            </a>
+                        </li>
                     </ul>
                 </div>
             </div>
