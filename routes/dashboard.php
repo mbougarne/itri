@@ -26,8 +26,8 @@ Route::group(['prefix' => 'profile'], function () {
 # Posts
 Route::group(['prefix' => 'posts'], function() {
     Route::get('/', 'PostController@index')->name('posts');
-    Route::get('/published', 'PostController@index')->name('posts.published');
-    Route::get('/pending', 'PostController@index')->name('posts.pending');
+    Route::get('/published', 'PostController@published')->name('posts.published');
+    Route::get('/pending', 'PostController@pending')->name('posts.pending');
     Route::get('/create', 'PostController@create')->name('posts.create');
     Route::post('/create', 'PostController@store')->name('posts.create');
     Route::get('/update/{post:slug}', 'PostController@edit')->name('posts.update');
