@@ -63,11 +63,59 @@ class PostController extends Controller
         $links = [
             'posts' => 'All',
             'posts.published' => 'Published',
-            'posts.pending' => 'Pending'
+            'posts.draft' => 'Draft'
         ];
 
         return view('dashboard.posts.index', [
             'posts' => $this->repository->all(),
+            'title' => $title,
+            'description' => $description,
+            'links' => $links
+        ]);
+    }
+
+    /**
+     * Display draft posts
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function draft()
+    {
+        $title = "Draft Posts";
+        $description = "Manage your posts";
+
+        $links = [
+            'posts' => 'All',
+            'posts.published' => 'Published',
+            'posts.draft' => 'Draft'
+        ];
+
+        return view('dashboard.posts.index', [
+            'posts' => $this->repository->allByStatus(0),
+            'title' => $title,
+            'description' => $description,
+            'links' => $links
+        ]);
+    }
+
+    /**
+     * Display published posts
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function published()
+    {
+        $title = "Published Posts";
+        $description = "Manage your posts";
+
+        $links = [
+            'posts' => 'All',
+            'posts.published' => 'Published',
+            'posts.draft' => 'Draft'
+        ];
+
+        return view('dashboard.posts.index', [
+            'posts' => $this->repository->allByStatus(),
             'title' => $title,
             'description' => $description,
             'links' => $links
