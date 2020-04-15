@@ -17,7 +17,7 @@
                             @if($loop->first)
                                 <li class="nav-item">
                                     <a
-                                        class="nav-link active"
+                                        class="nav-link {{ route_active_status($route) }}"
                                         href="{{ route($route) }}">
                                         {{ __($label) }}
                                     </a>
@@ -25,7 +25,7 @@
                             @else
                                 <li class="nav-item">
                                     <a
-                                        class="nav-link"
+                                        class="nav-link {{ route_active_status($route) }}"
                                         href="{{ route($route) }}">
                                         {{ __($label) }}
                                     </a>
