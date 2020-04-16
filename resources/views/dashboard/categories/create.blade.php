@@ -10,7 +10,7 @@
     <x-content-header :title="$title" :description="$description" />
     {{-- Create --}}
     <form
-        action="{{ route('category.create') }}"
+        action="{{ route('categories.create') }}"
         method="POST"
         enctype="multipart/form-data">
         {{-- Fields --}}

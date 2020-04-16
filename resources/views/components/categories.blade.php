@@ -45,7 +45,7 @@
                                         </div>
                                         <div class="table-links">
                                             <div class="bullet"></div>
-                                            <a href="{{ route('category.update', $category->slug) }}">
+                                            <a href="{{ route('categories.update', $category->slug) }}">
                                                 {{ __("Edit") }}
                                             </a>
                                         </div>
@@ -69,7 +69,7 @@
                                 <tr>
                                     <td colspan="5">
                                         {{ __("No category has created yet!") }}
-                                        <a href="{{ route('category.create') }}" class="btn btn-primary btn-sm btn-round">
+                                        <a href="{{ route('categories.create') }}" class="btn btn-primary btn-sm btn-round">
                                             {{ __("Create New One") }}
                                         </a>
                                     </td>
