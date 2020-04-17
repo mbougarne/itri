@@ -22,7 +22,7 @@
                     {{-- Header --}}
                     <div class="card-header">
                         {{-- Title --}}
-                        <h4> {{ __("Write Your Post") }} </h4>
+                        <h4> {{ __("Update Post") }} </h4>
                         {{-- Delete form --}}
                         <form
                             action="{{ route('posts.delete', $post->slug) }}"

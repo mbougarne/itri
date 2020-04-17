@@ -14,6 +14,16 @@ interface CategoryRepositoryInterface
     public function all();
 
     /**
+     * Get categories with customer WHERE query
+     *
+     * @param string $column
+     * @param string $operator
+     * @param mixed $value
+     * @return \Illuminate\Database\Eloquent\Collection|static[]
+     */
+    public function allWhere(string $column, string $operator, $value);
+
+    /**
      * Get single Category based on its slug
      *
      * @param string $key

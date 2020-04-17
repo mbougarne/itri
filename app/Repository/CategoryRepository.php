@@ -18,6 +18,19 @@ class categoryRepository implements CategoryRepositoryInterface
     }
 
     /**
+     * Get categories with customer WHERE query
+     *
+     * @param string $column
+     * @param string $operator
+     * @param mixed $value
+     * @return \Illuminate\Database\Eloquent\Collection|static[]
+     */
+    public function allWhere(string $column, string $operator, $value)
+    {
+        return Category::where($column, $operator, $value)->get();
+    }
+
+    /**
      * Get single category based on its slug
      *
      * @param string $key slug by default
