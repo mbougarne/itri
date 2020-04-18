@@ -14,13 +14,11 @@
             @if($loop->last)
                 <div class="breadcrumb-item">{{ __(ucwords($item)) }}</div>
             @else
-
                 <div class="breadcrumb-item {{ ($loop->first) ? 'active' : ''}}">
-                    <a href="{{ ($loop->iteration == 3) ? request()->segment(2) . '.' . $item : route($item) }}" >
+                    <a href="{{ breadcrumb_route_name($item, $loop->iteration) }}" >
                         {{ __(ucwords($item)) }} <br>
                     </a>
                 </div>
-
             @endif
 
         @endforeach
