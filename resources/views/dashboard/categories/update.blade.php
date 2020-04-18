@@ -8,22 +8,34 @@
 @section('content')
     {{-- Navigation --}}
     <x-content-header :title="$title" :description="$description" />
-    {{-- Create --}}
-    <form
-        action="{{ route('categories.update', $category->slug) }}"
-        method="POST"
-        enctype="multipart/form-data">
-        {{-- Fields --}}
-        <div class="row">
-            <div class="col-12">
-                {{-- Card --}}
-                <div class="card">
-                    {{-- Header --}}
-                    <div class="card-header">
+    {{-- Content --}}
+    <div class="row">
+        <div class="col-12">
+            {{-- Card --}}
+            <div class="card">
+                {{-- Header --}}
+                <div class="card-header">
                     <h4> {{ __("Update category") }} </h4>
-                    </div>
-                    {{-- Card Body  --}}
-                    <div class="card-body">
+                    {{-- Delete form --}}
+                    <form
+                        action="{{ route('categories.delete', $category->slug) }}"
+                        method="POST"
+                        class="ml-auto deleteItem">
+                        {{-- Delete --}}
+                        @csrf
+                        <button type="submit" class="btn btn-icon icon-left btn-danger" disabled>
+                            <i class="fas fa-times"></i>
+                            DELETE
+                        </button>
+                    </form>
+                </div>
+                {{-- Card Body  --}}
+                <div class="card-body">
+                    {{-- Update form --}}
+                    <form
+                        action="{{ route('categories.update', $category->slug) }}"
+                        method="POST"
+                        enctype="multipart/form-data">
                         {{-- Title --}}
                         <div class="form-group row mb-4">
                             <label class="col-form-label text-md-right col-12 col-md-3 col-lg-3" for="name">
@@ -119,15 +131,32 @@
                                 </button>
                             </div>
                         </div>
-                    </div>
+                    </form>
                 </div>
             </div>
         </div>
-    </form>
+    </div>
 @endsection
 
 @section('scripts')
 <script src="{{ asset('default/stisla/jquery.selectric.min.js') }}"></script>
 <script src="{{ asset('default/stisla/jquery.uploadPreview.min.js') }}"></script>
-<script src="{{ asset('default/stisla/page/features-post-create.js') }}"></script>
+{{-- Delete Post --}}
+<script src="{{ asset('default/stisla/sweetalert.min.js') }}"></script>
+<script>
+    $(document).ready( function($) {
+
+        $(".select").selectric();
+        $.uploadPreview({
+            input_field: "#image-upload",
+            preview_box: "#image-preview",
+            label_field: "#image-label",
+            label_default: "Choose File",
+            label_selected: "Change File",
+            no_label: false,
+            success_callback: null
+        });
+
+    })
+</script>
 @endsection

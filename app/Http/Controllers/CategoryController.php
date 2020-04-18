@@ -3,36 +3,47 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Illuminate\Support\Str;
 
 use App\Models\Category;
 use App\Repository\Contracts\CategoryRepositoryInterface;
+use App\Http\Controllers\Lib\ControllerMethod;
 
 class CategoryController extends Controller
 {
     /**
      * Category Repository Interface
+     *
      * @var \App\Repository\Contracts\CategoryRepositoryInterface $repository
      */
     protected $repository;
 
     /**
-     * Undocumented variable
+     * Request object
      *
      * @var \Illuminate\Http\Request $request
      */
     protected $request;
 
     /**
+     * Controller Template Method
+     *
+     * @var \App\Http\Controllers\Lib\ControllerMethod
+     */
+    protected $controllerMethod;
+    /**
      * Assign request and category repository on instantiate
      *
      * @param \Illuminate\Http\Request $request
      * @param \App\Repository\Contracts\CategoryRepositoryInterface $repository
      */
-    public function __construct(Request $request, CategoryRepositoryInterface $repository)
+    public function __construct(
+        Request $request,
+        CategoryRepositoryInterface $repository,
+        ControllerMethod $method)
     {
         $this->request = $request;
         $this->repository = $repository;
+        $this->controllerMethod = $method;
     }
 
     /**
@@ -80,12 +91,22 @@ class CategoryController extends Controller
      */
     public function store()
     {
-        // get data from request
-        $data = $this->validateRequest();
-        // Save Post
+        $data = $this->controllerMethod
+                ->validateRequest(
+                    $this->requestValidationRules(),
+                    'thumbnail',
+                    'categories'
+                );
+
         $createdCategory = $this->repository->save($data);
-        // redirect incoming request
-        return $this->sendResponse($createdCategory, 'created');
+
+        return $this->controllerMethod
+                ->sendResponse(
+                    $createdCategory,
+                    'categories',
+                    'category has created successfully',
+                    'There is an error, please try again!'
+                );
     }
 
     /**
@@ -96,15 +117,7 @@ class CategoryController extends Controller
      */
     public function show(Category $category)
     {
-        $title = "Create New Category";
-        $description = "Use the form below to create new category";
-        $categories = $this->repository->all();
-
-        return view('dashboard.categories.create', [
-            'title' => $title,
-            'description' => $description,
-            'categories' => $categories
-        ]);
+        //
     }
 
     /**
@@ -134,9 +147,24 @@ class CategoryController extends Controller
      * @param  \App\Models\Category  $category
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Category $category)
+    public function update(Category $category)
     {
-        return dd($request->all());
+        $data = $this->controllerMethod
+                    ->validateRequest(
+                        $this->requestValidationRules($category->id),
+                        'thumbnail',
+                        'categories'
+                    );
+
+        $createdCategory = $this->repository->update($category, $data);
+
+        return $this->controllerMethod
+                    ->sendResponse(
+                        $createdCategory,
+                        'categories',
+                        'category has updated successfully',
+                        'There is an error, please try again!'
+                    );
     }
 
     /**
@@ -147,72 +175,32 @@ class CategoryController extends Controller
      */
     public function destroy(Category $category)
     {
-        //
+        $deletedCategory = $this->repository->delete($category);
+
+        return $this->controllerMethod
+                ->sendResponse(
+                    $deletedCategory,
+                    'categories',
+                    'category has deleted successfully',
+                    'There is an error, please try again!'
+                );
     }
 
     /**
-     * Store images functionality
+     * Request validation rules
      *
-     * @param \Illuminate\Http\Request $request
-     * @return string $thumbnail stored thumbnail name
+     * @param integer|null $category_id
+     * @return array $rules
      */
-    protected function storeThumbnail(Request $request, string $file_name) : string
+    protected function requestValidationRules(?int $category_id = null) : array
     {
-        $extension = $request->file($file_name)->extension();
-        $random_chars = ($request->name) ? strtolower($request->name) : Str::random();
-        $thumbnail = $random_chars . '-' . time() . '.' . $extension;
-
-        $request->file($file_name)->storeAs('categories/', $thumbnail, 'uploads');
-
-        return $thumbnail;
-    }
-
-    /**
-     * Validate incoming request and return its data
-     *
-     * @param int|null $category_id
-     * @return array
-     */
-    protected function validateRequest(?int $category_id = null) : array
-    {
-        // Validation rules: If the category_id isn't null which mean we're in update case check unique on it's name
         $rules = [
             'parent_id' => 'sometimes|nullable|exists:categories,id',
-            'name' => ($category_id) ? 'required|unique:categories,name,' . $category_id : 'required|unique:categories',
+            'name' => is_null($category_id) ? 'required|unique:categories' : 'required|unique:categories,name,' . $category_id,
             'description' => 'sometimes|nullable|max:160',
             'thumbnail' => 'sometimes|nullable|file|image|max:5000',
         ];
-        // Assaign validated data
-        $data = $this->request->validate($rules);
-        // Save post thumbnail
-        if($this->request->hasFile('thumbnail'))
-        {
-            $thumbnail = $this->storeThumbnail($this->request, 'thumbnail');
-            $data = array_merge($data, ['thumbnail' => $thumbnail]);
-        }
-        // return the request data after validation in array format
-        return $data;
-    }
 
-    /**
-     * Redirect to corresponding web route
-     *
-     * @param mixed $category
-     * @param string $action process action type: Delete|Update|Create
-     * @return \Illuminate\Http\Response
-     */
-    protected function sendResponse($category, string $action)
-    {
-        // Success redirect
-        if($category)
-        {
-            return redirect()
-                    ->route('categories')
-                    ->with('success', "The category has $action successfully!");
-        }
-        // Error redirect
-        return redirect()
-                ->back()
-                ->withErrors(['errors' => 'There is an issue. Please try again!']);
+        return $rules;
     }
 }

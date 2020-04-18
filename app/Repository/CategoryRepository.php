@@ -63,6 +63,7 @@ class categoryRepository implements CategoryRepositoryInterface
      */
     public function update(Category $category, array $data)
     {
+        $data = (array_key_exists('parent_id', $data)) ? array_merge($data, ['is_sub' => 1]) : $data;
         return $category->update($data);
     }
 
