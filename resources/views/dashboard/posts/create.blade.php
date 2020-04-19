@@ -36,9 +36,14 @@
                                     type="text"
                                     id="title"
                                     name="title"
-                                    value="{{ old('title'), '' }}"
-                                    class="form-control"
+                                    value="{{ old('title') }}"
+                                    class="form-control @error('title') is-invalid  @enderror"
                                     placeholder="{{ __("What's new in Laravel 7") }}">
+                                @error('title')
+                                    <span class="invalid-feedback">
+                                        {{ $message }}
+                                    </span>
+                                @enderror
                             </div>
                         </div>
                         {{-- Categories --}}
@@ -104,8 +109,13 @@
                                 <textarea
                                     id="body"
                                     name="body"
-                                    class="summernote"
+                                    class="summernote @error('body') is-invalid @enderror"
                                 >{{ old('body') }}</textarea>
+                                @error('body')
+                                    <span class="invalid-feedback">
+                                        {{ $message }}
+                                    </span>
+                                @enderror
                             </div>
                         </div>
                         {{-- Thumbnail --}}
@@ -148,7 +158,7 @@
                             <div class="col-sm-12 col-md-7">
                             <select class="form-control selectric" name="is_published" is="isPublished">
                                 <option value="1">{{ __('Publish') }}</option>
-                                <option value="0">{{ __('Pending') }}</option>
+                                <option value="0">{{ __('Draft') }}</option>
                             </select>
                             </div>
                         </div>

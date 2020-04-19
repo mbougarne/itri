@@ -3,11 +3,9 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Illuminate\Support\Str;
-
+use App\Http\Controllers\Lib\ControllerMethod;
 use App\Repository\Contracts\PostRepositoryInterface;
 use App\Repository\Contracts\CategoryRepositoryInterface;
-
 use App\Models\Post;
 
 class PostController extends Controller
@@ -34,6 +32,13 @@ class PostController extends Controller
     protected $request;
 
     /**
+     * Controller Template Method
+     *
+     * @var \App\Http\Controllers\Lib\ControllerMethod
+     */
+    protected $controllerMethod;
+
+    /**
      * DI request, post and category repositories
      *
      * @param \Illuminate\Http\Request $request
@@ -42,10 +47,12 @@ class PostController extends Controller
      */
     public function __construct(
         Request $request,
+        ControllerMethod $controllerMethod,
         PostRepositoryInterface $repository,
         CategoryRepositoryInterface $categoryRepository)
     {
         $this->request = $request;
+        $this->controllerMethod = $controllerMethod;
         $this->repository = $repository;
         $this->categoryRepository = $categoryRepository;
     }
@@ -147,12 +154,21 @@ class PostController extends Controller
      */
     public function store()
     {
-        // get data from request
-        $data = $this->validateRequest();
-        // Save Post
-        $createdPost = $this->repository->save( $data );
-        // redirect incoming request
-        return $this->sendResponse($createdPost, 'created');
+        $data = $this->controllerMethod
+                ->validateRequest(
+                    $this->requestValidationRules(),
+                    'thumbnail'
+                );
+
+        $createdPost = $this->repository->save($data);
+
+        return $this->controllerMethod
+            ->sendResponse(
+                $createdPost,
+                'posts',
+                'Post has created successfully',
+                'There is an error, please try again!'
+            );
     }
 
     /**
@@ -194,12 +210,21 @@ class PostController extends Controller
      */
     public function update(Post $post)
     {
-        // get data from request
-        $data = $this->validateRequest($post->id);
-        // Save Post
+        $data = $this->controllerMethod
+                ->validateRequest(
+                    $this->requestValidationRules($post->id),
+                    'thumbnail'
+                );
+
         $updatedPost = $this->repository->update($post, $data);
-        // redirect incoming request
-        return $this->sendResponse($updatedPost, 'updated');
+
+        return $this->controllerMethod
+            ->sendResponse(
+                $updatedPost,
+                'posts',
+                'Post has updated successfully',
+                'There is an error, please try again!'
+            );
     }
 
     /**
@@ -210,10 +235,15 @@ class PostController extends Controller
      */
     public function destroy(Post $post)
     {
-        // Delete post
         $deletedPost = $this->repository->delete($post);
-        // redirect incoming request
-        return $this->sendResponse($deletedPost, 'deleted');
+
+        return $this->controllerMethod
+            ->sendResponse(
+                $deletedPost,
+                'posts',
+                'Post has deleted successfully',
+                'There is an error, please try again!'
+            );
     }
 
     /**
@@ -226,7 +256,7 @@ class PostController extends Controller
     {
         if($request->hasFile('upload_image'))
         {
-            $image = $this->storeThumbnail($request, 'upload_image');
+            $image = $this->controllerMethod->storeImage('upload_image');
             return response()->json([
                 'success' => true,
                 'msg' => 'Image has been saved',
@@ -239,33 +269,15 @@ class PostController extends Controller
     }
 
     /**
-     * Store images functionality
+     * Request validation rules
      *
-     * @param \Illuminate\Http\Request $request
-     * @return string $thumbnail stored thumbnail name
+     * @param integer|null $post_id
+     * @return array $rules
      */
-    protected function storeThumbnail(Request $request, string $file_name) : string
+    protected function requestValidationRules(?int $post_id = null) : array
     {
-        $extension = $request->file($file_name)->extension();
-        $random_chars = ($request->title) ? Str::slug($request->title) : Str::random();
-        $thumbnail = $random_chars . '-' . time() . '.' . $extension;
-
-        $request->file($file_name)->storeAs('thumbnails/', $thumbnail, 'uploads');
-
-        return $thumbnail;
-    }
-
-    /**
-     * Validate incoming request and return its data
-     *
-     * @param int $post_id
-     * @return array
-     */
-    protected function validateRequest(int $post_id = null) : array
-    {
-        // Validation rules: If the post_id isn't null which mean we're in update case check unique on it's title
         $rules = [
-            'title' => ($post_id) ? 'required|unique:posts,title,' . $post_id : 'required|unique:posts',
+            'title' => is_null($post_id) ? 'required|unique:posts' : 'required|unique:posts,title,' . $post_id,
             'body' => 'required',
             'description' => 'sometimes|nullable|max:160',
             'thumbnail' => 'sometimes|nullable|file|image|max:5000',
@@ -273,37 +285,7 @@ class PostController extends Controller
             'tags' => 'sometimes|nullable',
             'is_published' => 'sometimes',
         ];
-        // Assaign validated data
-        $data = $this->request->validate($rules);
-        // Save post thumbnail
-        if($this->request->hasFile('thumbnail'))
-        {
-            $thumbnail = $this->storeThumbnail($this->request, 'thumbnail');
-            $data = array_merge($data, ['thumbnail' => $thumbnail]);
-        }
-        // return the request data after validation in array format
-        return $data;
-    }
 
-    /**
-     * Redirect to corresponding web route
-     *
-     * @param mixed $post
-     * @param string $action process action type: Delete|Update|Create
-     * @return \Illuminate\Http\Response
-     */
-    protected function sendResponse($post, string $action)
-    {
-        // Success redirect
-        if($post)
-        {
-            return redirect()
-                    ->route('posts')
-                    ->with('success', "The post has $action successfully!");
-        }
-        // Error redirect
-        return redirect()
-                ->back()
-                ->withErrors(['errors' => 'There is an issue. Please try again!']);
+        return $rules;
     }
 }
