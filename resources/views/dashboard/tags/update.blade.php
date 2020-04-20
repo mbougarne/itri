@@ -66,3 +66,7 @@
         </div>
     </div>
 @endsection
+
+@section('scripts')
+    <script src="{{ asset('default/stisla/sweetalert.min.js') }}"></script>
+@endsection

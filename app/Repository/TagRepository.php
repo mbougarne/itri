@@ -24,20 +24,9 @@ class TagRepository implements TagRepositoryInterface
      * @param mixed $value
      * @return \Illuminate\Database\Eloquent\Model|null
      */
-    public function single(string $key = 'slug', $value)
+    public function single($value, string $key = 'slug')
     {
         return Tag::firstWhere($key, $value);
-    }
-
-     /**
-     * Create new tag
-     *
-     * @param array $data
-     * @return \Illuminate\Database\Eloquent\Model|Boolean
-     */
-    public function save(array $data)
-    {
-        return Tag::create($data);
     }
 
     /**

@@ -55,7 +55,7 @@ class ControllerMethod
      */
     public function validateRequest(
         array $rules,
-        string $file_name,
+        string $file_name = null,
         string $path_name = 'thumbnails',
         string $storage_disk = 'uploads'
     ) : array
