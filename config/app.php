@@ -179,6 +179,7 @@ return [
         App\Repository\Provider\PostRepositoryProvider::class,
         App\Repository\Provider\CategoryRepositoryProvider::class,
         App\Repository\Provider\TagRepositoryProvider::class,
+        App\Repository\Provider\PageRepositoryProvider::class,
 
     ],
 
