@@ -39,8 +39,8 @@ Route::group(['prefix' => 'posts'], function() {
 # Page
 Route::group(['prefix' => 'pages'], function() {
     Route::get('/', 'PageController@index')->name('pages');
-    Route::get('/published', 'PageController@published')->name('posts.published');
-    Route::get('/draft', 'PageController@draft')->name('posts.draft');
+    Route::get('/published', 'PageController@published')->name('pages.published');
+    Route::get('/draft', 'PageController@draft')->name('pages.draft');
     Route::get('/create', 'PageController@create')->name('pages.create');
     Route::post('/create', 'PageController@store')->name('pages.create');
     Route::get('/update/{page:slug}', 'PageController@edit')->name('pages.update');
