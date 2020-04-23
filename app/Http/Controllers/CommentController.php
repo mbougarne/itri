@@ -35,14 +35,14 @@ class CommentController extends Controller
      * Dependency injection for Request, CommentRepository and ControllerMethod
      *
      * @param \Illuminate\Http\Request $request
-     * @param \App\Repository\Contracts\CategoryRepositoryInterface $repository
-     * @param \App\Repository\Contracts\CommentRepositoryInterface $method
+     * @param \App\Repository\Contracts\CommentRepositoryInterface $repository
+     * @param \App\Http\Controllers\Lib\ControllerMethod $method
      *
      * @return void
      */
     public function __construct(
         Request $request,
-        CategoryRepositoryInterface $repository,
+        CommentRepositoryInterface $repository,
         ControllerMethod $method)
     {
         $this->request = $request;
