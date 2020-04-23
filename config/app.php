@@ -180,7 +180,7 @@ return [
         App\Repository\Provider\CategoryRepositoryProvider::class,
         App\Repository\Provider\TagRepositoryProvider::class,
         App\Repository\Provider\PageRepositoryProvider::class,
-        App\Repository\Provider\CategoryRepositoryProvider::class,
+        App\Repository\Provider\CommentRepositoryProvider::class,
 
     ],
 
