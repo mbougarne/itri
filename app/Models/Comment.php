@@ -78,6 +78,20 @@ class Comment extends Model
     }
 
     /**
+     * Get is reply attribute
+     *
+     * @param mixed $attribute
+     * @return void
+     */
+    public function getIsReplyAttribute($attribute)
+    {
+        return [
+            1 => 'Reply',
+            0 => 'Parent Comment'
+        ][$attribute];
+    }
+
+    /**
      * Trim and convert first name to lower case before save
      *
      * @param string $value
@@ -130,6 +144,16 @@ class Comment extends Model
     public function getLastNameAttribute($value)
     {
         return ucfirst($value);
+    }
+
+    /**
+     * Get full name
+     *
+     * @return string $value Full name
+     */
+    public function fullName()
+    {
+        return $this->first_name . ' ' . $this->last_name;
     }
 
     /**

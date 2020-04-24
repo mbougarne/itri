@@ -71,6 +71,8 @@ Route::group(['prefix' => 'tags'], function() {
 # Comment
 Route::group(['prefix' => 'comments'], function() {
     Route::get('/', 'CommentController@index')->name('comments');
+    Route::get('/approved', 'CommentController@approved')->name('comments.approved');
+    Route::get('/pending', 'CommentController@pending')->name('comments.pending');
     Route::post('/update/{comment}', 'CommentController@update')->name('comments.update');
     Route::post('/delete/{comment}', 'CommentController@destroy')->name('comments.delete');
 });

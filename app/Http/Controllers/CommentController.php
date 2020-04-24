@@ -57,7 +57,69 @@ class CommentController extends Controller
      */
     public function index()
     {
+        $title = "Comments";
+        $description = "Manage application comments";
 
+        $links = [
+            'comments' => 'All',
+            'comments.approved' => 'Approved',
+            'comments.pending' => 'Pending'
+         ];
+
+        return view('dashboard.comments.index', [
+            'comments' => $this->repository->all(),
+            'title' => $title,
+            'description' => $description,
+            'links' => $links
+        ]);
+    }
+
+    /**
+     * Display a listing of the approved resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function approved()
+    {
+        $title = "Approved Comments";
+        $description = "Manage application comments";
+
+        $links = [
+            'comments' => 'All',
+            'comments.approved' => 'Approved',
+            'comments.pending' => 'Pending'
+         ];
+
+        return view('dashboard.comments.index', [
+            'comments' => $this->repository->allByStatus(),
+            'title' => $title,
+            'description' => $description,
+            'links' => $links
+        ]);
+    }
+
+    /**
+     * Display a listing of the pending resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function pending()
+    {
+        $title = "Pending Comments";
+        $description = "Manage application comments";
+
+        $links = [
+            'comments' => 'All',
+            'comments.approved' => 'Approved',
+            'comments.pending' => 'Pending'
+         ];
+
+        return view('dashboard.comments.index', [
+            'comments' => $this->repository->allByStatus(0),
+            'title' => $title,
+            'description' => $description,
+            'links' => $links
+        ]);
     }
 
     /**
