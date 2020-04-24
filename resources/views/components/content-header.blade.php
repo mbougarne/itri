@@ -39,7 +39,7 @@
                             </li>
                         @endforelse
                         {{-- Create Button --}}
-                        @if(request()->segment(2) != 'tags')
+                        @if(!in_array(request()->segment(2), ['tags', 'comments']))
                         <li class="nav-item ml-auto">
                             <a class="btn btn-success" href="{{ route(request()->segment(2) . '.create') }}">
                                 <i class="fas fa-edit"></i>
