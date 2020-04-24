@@ -12,6 +12,12 @@ class CommentTest extends TestCase
     /** @test */
     function can_create_comment()
     {
+
+        $this->postJson('/dashboard/posts/create', [
+            'title' => 'Sample post to test comment',
+            'body' => 'Just testing the comment',
+        ]);
+
         $responsoe = $this->postJson('/comments/create', [
             'post_id' => 1,
             'first_name' => 'Mourad',
