@@ -3,15 +3,30 @@
 namespace App\Http\Controllers;
 
 use App\Repository\Contracts\PostRepositoryInterface as PostRepository;
+use App\Repository\Contracts\CommentRepositoryInterface as CommentRepository;
 
 class DashboardController
 {
+    /**
+     * Post repository
+     *
+     * @var \App\Repository\Contracts\PostRepositoryInterface
+     */
+    protected $postRepository;
 
-    protected $repository;
+    /**
+     * Comment repository
+     *
+     * @var \App\Repository\Contracts\CommentRepositoryInterface
+     */
+    protected $commentRepository;
 
-    public function __construct(PostRepository $repository)
+    public function __construct(
+        PostRepository $postRepository,
+        CommentRepository $commentRepository)
     {
-        $this->repository = $repository;
+        $this->postRepository = $postRepository;
+        $this->commentRepository = $commentRepository;
     }
 
     public function index()
@@ -20,7 +35,8 @@ class DashboardController
             'dashboard.template',
             [
                 'title' => 'dashboard',
-                'posts' => $this->repository->getLatest(1)
+                'posts' => $this->postRepository->getLatest(1),
+                'comments' => $this->commentRepository->getLatest(0),
             ]
         );
     }

@@ -26,7 +26,7 @@ class CommentRepository implements CommentRepositoryInterface
      */
     public function getLatest(int $status, int $limit = 5)
     {
-        return Comment::published($status)->latest()->limit($limit)->get();
+        return Comment::approved($status)->latest()->limit($limit)->get();
     }
 
     /**
@@ -37,7 +37,7 @@ class CommentRepository implements CommentRepositoryInterface
      */
     public function allByStatus(int $status = 1)
     {
-        return Comment::published($status)->get();
+        return Comment::approved($status)->get();
     }
 
     /**

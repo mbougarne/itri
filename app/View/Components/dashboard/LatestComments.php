@@ -3,10 +3,21 @@
 namespace App\View\Components\dashboard;
 
 use Illuminate\View\Component;
-use App\Models\Comment;
 
 class LatestComments extends Component
 {
+    /**
+     * Latest comments
+     *
+     * @var $comment
+     */
+    public $comments;
+
+    public function __construct($comments)
+    {
+        $this->comments = $comments;
+    }
+
     /**
      * Get the view / contents that represent the component.
      *
@@ -15,25 +26,5 @@ class LatestComments extends Component
     public function render()
     {
         return view('components.dashboard.latest-comments');
-    }
-
-    /**
-     * Return latest comments
-     *
-     * @return self::getLatestComments
-     */
-    public function comments()
-    {
-        return $this->getLatestComments();
-    }
-
-    /**
-     * Get latest comments
-     *
-     * @return \App\Models\Comment
-     */
-    protected function getLatestComments() : object
-    {
-        return Comment::pending()->orderBy("created_at", "desc")->limit(5)->get();
     }
 }

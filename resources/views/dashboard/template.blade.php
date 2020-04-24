@@ -30,6 +30,6 @@
     {{-- Latest Posts --}}
     <div class="row">
         <x-dashboard.latest-posts :posts="$posts"/>
-        <x-dashboard.latest-comments />
+        <x-dashboard.latest-comments :comments="$comments"/>
     </div>
 @endsection
